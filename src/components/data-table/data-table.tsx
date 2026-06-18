@@ -8,9 +8,7 @@ import type { DataTableColumn } from "./data-table-types";
 
 type Props<T> = {
   data: T[];
-
   columns: DataTableColumn<T>[];
-
   loading?: boolean;
 };
 

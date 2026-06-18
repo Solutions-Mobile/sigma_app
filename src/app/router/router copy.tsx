@@ -5,7 +5,7 @@ import { ProtectedRoute } from "@/routes/protected-route";
 import { PublicRoute } from "@/routes/public-route";
 import { LoginPage } from "@/pages/auth/login-page";
 import { DashboardPage } from "@/pages/dashboard/dashboard-page";
-import { EmpresasPage } from "@/pages/cadastros/empresas-page";
+import { EmpresasPage } from "@/pages/cadastros/empresas/empresas-page";
 import { PerfisPage } from "@/pages/cadastros/perfis-page";
 import { UsuariosPage } from "@/pages/cadastros/usuarios-page";
 import { ConfiguracoesPage } from "@/pages/configuracoes/configuracoes-page";

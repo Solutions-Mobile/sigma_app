@@ -6,7 +6,7 @@ import { PublicRoute } from "@/routes/public-route";
 import { routeConfig } from "./route-config";
 import { LoginPage } from "@/pages/auth/login-page";
 import { DashboardPage } from "@/pages/dashboard/dashboard-page";
-import { EmpresasPage } from "@/pages/cadastros/empresas-page";
+import { EmpresasPage } from "@/pages/cadastros/empresas/empresas-page";
 import { PerfisPage } from "@/pages/cadastros/perfis-page";
 import { UsuariosPage } from "@/pages/cadastros/usuarios-page";
 import { ConfiguracoesPage } from "@/pages/configuracoes/configuracoes-page";
@@ -16,7 +16,7 @@ import { RecebimentosPage } from "@/pages/movimentacao/recebimentos-page";
 import { RelatoriosPage } from "@/pages/relatorios/relatorios-page";
 import { ForbiddenPage } from "@/pages/errors/forbidden-page";
 import { NotFoundPage } from "@/pages/errors/not-found-page";
-import { EmpresaCreatePage } from "@/pages/cadastros/empresa-create-page";
+import { EmpresaCreatePage } from "@/pages/cadastros/empresas/empresa-create-page";
 
 function getPermission(path: string) {
   return routeConfig.find(
