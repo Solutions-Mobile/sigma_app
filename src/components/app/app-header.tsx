@@ -6,14 +6,9 @@ import { usePageMetadata } from "@/hooks/use-page-metadata";
 import { useTheme } from "@/components/theme/use-theme";
 
 export function AppHeader() {
-  const { user, logout } =
-    useAuth();
-
-  const { title, breadcrumbs } =
-    usePageMetadata();
-
-  const { theme, setTheme } =
-    useTheme();
+  const { user, logout } = useAuth();
+  const { title, breadcrumbs } = usePageMetadata();
+  const { theme, setTheme } = useTheme();
 
   function handleToggleTheme() {
     setTheme(
@@ -59,11 +54,7 @@ export function AppHeader() {
             )}
           </Button>
 
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={logout}
-          >
+          <Button variant="outline" size="icon" onClick={logout}          >
             <LogOut className="h-4 w-4" />
           </Button>
         </div>

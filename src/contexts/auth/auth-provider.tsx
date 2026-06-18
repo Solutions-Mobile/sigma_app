@@ -8,12 +8,9 @@ interface AuthProviderProps {
   children: React.ReactNode;
 }
 
-export function AuthProvider({
-  children,
-}: AuthProviderProps) {
+export function AuthProvider({ children, }: AuthProviderProps) {
   const [user, setUser] = useState<AuthUser | null>(() => AuthStorage.getUser(),);
   const loading = false;
-
   const login = useCallback(
     async (
       loginValue: string,
@@ -35,8 +32,7 @@ export function AuthProvider({
   const logout = useCallback(
     async () => {
       try {
-        const refreshToken =
-          AuthStorage.getRefreshToken();
+        const refreshToken = AuthStorage.getRefreshToken();
 
         if (refreshToken) {
           await authService.logout(refreshToken,);
@@ -52,13 +48,7 @@ export function AuthProvider({
     [],
   );
   const value = useMemo(
-    () => ({
-      user,
-      loading,
-      authenticated: !!user,
-      login,
-      logout,
-    }),
+    () => ({ user, loading, authenticated: !!user, login, logout, }),
     [
       user,
       loading,

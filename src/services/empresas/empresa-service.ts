@@ -1,6 +1,7 @@
 import { httpClient } from "@/services/http/http-client";
 import type { ApiResponse } from "@/types/api/api-response";
 import type { EmpresaDTO } from "./dtos/empresa.dto";
+import type { CreateEmpresaDTO } from "./dtos/create-empresa.dto";
 
 export const empresaService = {
   async findAll() {
@@ -11,17 +12,17 @@ export const empresaService = {
 
     return data.data;
   },
+
+  async create(
+  payload: CreateEmpresaDTO,
+) {
+  const { data } =
+    await httpClient.post(
+      "/tenants",
+      payload,
+    );
+
+  return data;
+},
 };
 
-/*
-import { httpClient } from "@/services/http/http-client";
-import type { EmpresaDTO } from "./dtos/empresa.dto";
-
-export const empresaService = {
-  async findAll() {
-    const { data } = await httpClient.get<EmpresaDTO[]>("/tenants");
-
-    return data;
-  },
-};
-*/

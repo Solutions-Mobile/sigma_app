@@ -1,147 +1,139 @@
-import { useMemo, useState } from "react";
+import { flexRender, getCoreRowModel, getSortedRowModel, useReactTable, type ColumnDef, type SortingState, } from "@tanstack/react-table";
+import { useMemo, useState, } from "react";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow, } from "@/components/ui/table";
+import { DataTableEmpty } from "./data-table-empty";
+import { DataTableLoading } from "./data-table-loading";
+import { DataTableHeader } from "./data-table-header";
+import type { DataTableColumn } from "./data-table-types";
 
-import { AppCard } from "@/components/app/app-card";
+type Props<T> = {
+  data: T[];
 
-import { DataTablePagination } from "./data-table-pagination";
-import { DataTableSearch } from "./data-table-search";
+  columns: DataTableColumn<T>[];
 
-import type {
-  DataTableProps,
-} from "./data-table-types";
+  loading?: boolean;
+};
 
-const ITEMS_PER_PAGE = 10;
-
-export function DataTable<T extends object>({
-  data,
-  columns,
-}: DataTableProps<T>) {
-  const [search, setSearch] =
-    useState("");
-
-  const [page, setPage] =
-    useState(1);
-
-  const filteredData = useMemo(() => {
-    if (!search.trim()) {
-      return data;
-    }
-
-    return data.filter((item) =>
-      Object.values(item).some((value) =>
-        String(value)
-          .toLowerCase()
-          .includes(
-            search.toLowerCase()
-          )
-      )
-    );
-  }, [data, search]);
-
-  const totalPages = Math.max(
-    1,
-    Math.ceil(
-      filteredData.length /
-        ITEMS_PER_PAGE
-    )
+export function DataTable<
+  T extends object,
+>({ data, columns, loading, }: Props<T>) {
+  const [
+    sorting,
+    setSorting,
+  ] = useState<SortingState>(
+    [],
   );
 
-  const paginatedData = useMemo(() => {
-    const start =
-      (page - 1) * ITEMS_PER_PAGE;
+  const tableColumns =
+    useMemo<
+      ColumnDef<T>[]
+    >(
+      () =>
+        columns.map(
+          (column) => ({
+            accessorKey: String(column.key),
+            header: (context) => (<DataTableHeader header={context.header} />),
+            meta: column.label,
+            cell: ({
+              row,
+              getValue,
+            }) =>
+              column.render
+                ? column.render(
+                  getValue(),
+                  row.original,
+                )
+                : String(
+                  getValue() ??
+                  "",
+                ),
+          }),
+        ),
 
-    return filteredData.slice(
-      start,
-      start + ITEMS_PER_PAGE
+      [columns],
     );
-  }, [filteredData, page]);
 
-  function handlePrevious() {
-    setPage((prev) =>
-      Math.max(prev - 1, 1)
+  // IGNORAR WARNING - 17/06/2026
+  const table = useReactTable({
+    data, columns: tableColumns, state: { sorting, },
+    onSortingChange: setSorting,
+    getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+  });
+
+  if (loading) {
+    return (
+      <DataTableLoading />
     );
   }
 
-  function handleNext() {
-    setPage((prev) =>
-      Math.min(prev + 1, totalPages)
-    );
+  if (!data.length) {
+    return <DataTableEmpty />;
   }
 
   return (
-    <AppCard>
-      <div className="space-y-4">
-        <DataTableSearch
-          value={search}
-          onChange={setSearch}
-        />
+    <div className="rounded-md border">
+      <Table>
+        <TableHeader>
+          {table
+            .getHeaderGroups()
+            .map((group) => (
+              <TableRow
+                key={group.id}
+              >
+                {group.headers.map(
+                  (header) => (
+                    <TableHead
+                      key={
+                        header.id
+                      }
+                    >
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(
+                          header
+                            .column
+                            .columnDef
+                            .header,
 
-        <div className="overflow-auto rounded-md border">
-          <table className="w-full border-collapse text-sm">
-            <thead className="bg-muted/50">
-              <tr>
-                {columns.map((column) => (
-                  <th
-                    key={String(column.key)}
-                    className="border-b px-4 py-3 text-left font-medium"
-                  >
-                    {column.label}
-                  </th>
-                ))}
-              </tr>
-            </thead>
+                          header.getContext(),
+                        )}
+                    </TableHead>
+                  ),
+                )}
+              </TableRow>
+            ))}
+        </TableHeader>
 
-            <tbody>
-              {paginatedData.map(
-                (row, rowIndex) => (
-                  <tr
-                    key={rowIndex}
-                    className="hover:bg-muted/50"
-                  >
-                    {columns.map(
-                      (column) => (
-                        <td
-                          key={String(
-                            column.key
-                          )}
-                          className="border-b px-4 py-3"
-                        >
-                          {String(
-                            row[
-                              column.key
-                            ]
-                          )}
-                        </td>
-                      )
-                    )}
-                  </tr>
-                )
-              )}
+        <TableBody>
+          {table
+            .getRowModel()
+            .rows.map((row) => (
+              <TableRow
+                key={row.id}
+              >
+                {row
+                  .getVisibleCells()
+                  .map((cell) => (
+                    <TableCell
+                      key={
+                        cell.id
+                      }
+                    >
+                      {flexRender(
+                        cell
+                          .column
+                          .columnDef
+                          .cell,
 
-              {!paginatedData.length && (
-                <tr>
-                  <td
-                    colSpan={
-                      columns.length
-                    }
-                    className="px-4 py-10 text-center text-muted-foreground"
-                  >
-                    Nenhum registro encontrado
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
-
-        <DataTablePagination
-          page={page}
-          totalPages={totalPages}
-          onPrevious={
-            handlePrevious
-          }
-          onNext={handleNext}
-        />
-      </div>
-    </AppCard>
+                        cell.getContext(),
+                      )}
+                    </TableCell>
+                  ))}
+              </TableRow>
+            ))}
+        </TableBody>
+      </Table>
+    </div>
   );
 }

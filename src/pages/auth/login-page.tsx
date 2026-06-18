@@ -2,27 +2,17 @@ import { useState } from "react";
 import { Navigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-
 import { z } from "zod";
-
 import { useAuth } from "@/contexts/auth/use-auth";
-
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-
+import { Card, CardContent, CardDescription, CardHeader, CardTitle, } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import axios from "axios";
 
 const loginSchema = z.object({
   login: z
     .string()
     .min(1, "Informe o login"),
-
   password: z
     .string()
     .min(1, "Informe a senha"),
@@ -43,13 +33,8 @@ export function LoginPage() {
   const [loading, setLoading] =
     useState(false);
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<LoginFormData>({
-    resolver:
-      zodResolver(loginSchema),
+  const { register, handleSubmit, formState: { errors }, } = useForm<LoginFormData>({
+    resolver: zodResolver(loginSchema),
   });
 
   async function onSubmit(
@@ -59,14 +44,15 @@ export function LoginPage() {
       setError("");
       setLoading(true);
 
-      await executeLogin(
-        data.login,
-        data.password,
-      );
+      await executeLogin(data.login, data.password,);
     } catch {
-      setError(
-        "Login ou senha inválidos",
-      );
+      //setError("Login ou senha inválidos",);
+      if (axios.isAxiosError(error)) {
+        const message = error.response?.data?.message;
+        setError(message || "Erro ao autenticar",);
+        return;
+      }
+      setError("Erro interno ao autenticar",);
     } finally {
       setLoading(false);
     }
@@ -95,17 +81,9 @@ export function LoginPage() {
         </CardHeader>
 
         <CardContent>
-          <form
-            onSubmit={handleSubmit(
-              onSubmit,
-            )}
-            className="space-y-4"
-          >
+          <form onSubmit={handleSubmit(onSubmit,)} className="space-y-4"          >
             <div>
-              <Input
-                placeholder="Login"
-                {...register("login")}
-              />
+              <Input placeholder="Login" {...register("login")} />
 
               {errors.login && (
                 <p className="mt-1 text-sm text-destructive">
@@ -118,14 +96,7 @@ export function LoginPage() {
             </div>
 
             <div>
-              <Input
-                type="password"
-                placeholder="Senha"
-                {...register(
-                  "password",
-                )}
-              />
-
+              <Input type="password" placeholder="Senha"  {...register("password",)} />
               {errors.password && (
                 <p className="mt-1 text-sm text-destructive">
                   {
@@ -137,19 +108,11 @@ export function LoginPage() {
             </div>
 
             {error && (
-              <p className="text-sm text-destructive">
-                {error}
-              </p>
+              <p className="text-sm text-destructive">                {error}              </p>
             )}
 
-            <Button
-              type="submit"
-              className="w-full"
-              disabled={loading}
-            >
-              {loading
-                ? "Entrando..."
-                : "Entrar"}
+            <Button type="submit" className="w-full" disabled={loading}            >
+              {loading ? "Entrando..." : "Entrar"}
             </Button>
           </form>
         </CardContent>

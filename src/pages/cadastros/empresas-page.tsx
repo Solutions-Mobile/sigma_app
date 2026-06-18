@@ -1,15 +1,26 @@
+import { useNavigate } from "react-router-dom";
+
 import { Button } from "@/components/ui/button";
+
 import { AppPage } from "@/components/app/app-page";
+
 import { PageToolbar } from "@/components/app/page-toolbar";
+
 import { DataTable } from "@/components/data-table/data-table";
-import { EmptyState } from "@/components/data-display/empty-state";
+
+import { DataTableActions } from "@/components/data-table/data-table-actions";
+
 import { useEmpresas } from "@/hooks/api/use-empresas";
 
+import type { EmpresaDTO } from "@/services/empresas/dtos/empresa.dto";
+
 export function EmpresasPage() {
+  const navigate =
+    useNavigate();
+
   const {
-    data,
+    data = [],
     isLoading,
-    isError,
   } = useEmpresas();
 
   return (
@@ -18,54 +29,65 @@ export function EmpresasPage() {
         <PageToolbar>
           <div />
 
-          <Button>
+          <Button
+            onClick={() =>
+              navigate(
+                "/cadastros/empresas/nova",
+              )
+            }
+          >
             Nova Empresa
           </Button>
         </PageToolbar>
       }
     >
-      {isLoading && (
-        <EmptyState
-          title="Carregando empresas..."
-        />
-      )}
+      <DataTable<EmpresaDTO>
+        data={data}
+        loading={isLoading}
+        columns={[
+          {
+            key: "companyName",
 
-      {isError && (
-        <EmptyState
-          title="Erro ao carregar empresas"
-        />
-      )}
+            label:
+              "Razão Social",
+          },
 
-      {!isLoading &&
-        !isError &&
-        data && (
-          <DataTable
-            data={data}
-            columns={[
-              {
-                key: "id",
-                label: "Código",
-              },
+          {
+            key: "tradingName",
 
-              {
-                key: "companyName",
-                label:
-                  "Razão Social",
-              },
+            label:
+              "Fantasia",
+          },
 
-              {
-                key: "documentNumber",
-                label:
-                  "Documento",
-              },
+          {
+            key:
+              "documentNumber",
 
-              {
-                key: "tradingName",
-                label: "Nome Fantasia",
-              },
-            ]}
-          />
-        )}
+            label:
+              "Documento",
+          },
+
+          {
+            key: "id",
+
+            label:
+              "Ações",
+
+            render: (
+              _,
+              row,
+            ) => (
+              <DataTableActions
+                onEdit={() =>
+                  navigate(
+                    `/cadastros/empresas/${row.id}`,
+                  )
+                }
+              />
+            ),
+          },
+        ]}
+      />
     </AppPage>
   );
 }
