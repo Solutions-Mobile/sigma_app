@@ -1,0 +1,172 @@
+.\src
+│   App.css
+│   App.tsx
+│   index.css
+│   main.tsx
+│   vite-env.d.ts
+├───app
+│   │   providers.tsx
+│   ├───layouts
+│   ├───providers
+│   │       index.tsx
+│   │       theme-provider.tsx
+│   └───router
+│           private-route.tsx
+│           public-route.tsx
+│           route-config.ts
+│           router.tsx
+├───assets
+│       hero.png
+│       react.svg
+│       vite.svg
+├───components
+│   ├───app
+│   │       app-card.tsx
+│   │       app-header.tsx
+│   │       app-page.tsx
+│   │       page-toolbar.tsx
+│   ├───breadcrumbs
+│   │       app-breadcrumbs.tsx
+│   ├───common
+│   │       theme-toggle.tsx
+│   ├───data-display
+│   │       empty-state.tsx
+│   ├───data-table
+│   │       data-table-actions.tsx
+│   │       data-table-empty.tsx
+│   │       data-table-header.tsx
+│   │       data-table-loading.tsx
+│   │       data-table-pagination.tsx
+│   │       data-table-search.tsx
+│   │       data-table-types.ts
+│   │       data-table.tsx
+│   ├───dialogs
+│   │       confirm-dialog.tsx
+│   ├───feedback
+│   │       loading-button.tsx
+│   ├───forms
+│   │       app-form.tsx
+│   │       form-actions.tsx
+│   │       form-error.tsx
+│   │       form-input.tsx
+│   ├───navigation
+│   │       app-sidebar.tsx
+│   │       nav-group.tsx
+│   │       nav-item.tsx
+│   │       navigation-config.ts
+│   ├───theme
+│   │       theme-context.ts
+│   │       theme-provider.tsx
+│   │       use-theme.ts
+│   └───ui
+│           alert-dialog.tsx
+│           button.tsx
+│           card.tsx
+│           dialog.tsx
+│           dropdown-menu.tsx
+│           form.tsx
+│           input.tsx
+│           label.tsx
+│           sheet.tsx
+│           sonner.tsx
+│           table.tsx
+│           toaster.tsx
+├───contexts
+│   └───auth
+│           auth-context.ts
+│           auth-provider.tsx
+│           types.ts
+│           use-auth.ts
+├───hooks
+│   │   use-page-metadata.ts
+│   ├───api
+│   │       use-empresas.ts
+│   ├───mutations
+│   │       use-create-empresa.ts
+│   │       use-delete-empresa.ts
+│   │       use-update-empresa.ts
+│   └───queries
+│           use-empresas-query.ts
+├───layouts
+│       app-layout.tsx
+│       auth-layout.tsx
+├───lib
+│   │   env.ts
+│   │   utils.ts
+│   ├───auth
+│   │       auth-storage.ts
+│   │       permissions.ts
+│   │       sidebar-storage.ts
+│   ├───axios
+│   │       api.ts
+│   │       auth-api.ts
+│   │       interceptors.ts
+│   ├───react-query
+│   │       query-client.ts
+│   │       query-provider.tsx
+│   ├───toast
+│   │       toast.ts
+│   └───utils
+├───pages
+│   ├───auth
+│   │       login-page.tsx
+│   ├───cadastros
+│   │   │   perfis-page.tsx
+│   │   │   usuarios-page.tsx
+│   │   └───empresas
+│   │       │   empresa-columns.tsx
+│   │       │   empresa-create-page.tsx
+│   │       │   empresa-list-page.tsx
+│   │       │   empresa-table-actions.tsx
+│   │       │   empresas-page.tsx
+│   │       └───components
+│   │               empresa-form-dialog.tsx
+│   ├───configuracoes
+│   │       configuracoes-page.tsx
+│   ├───dashboard
+│   │       dashboard-page.tsx
+│   ├───errors
+│   │       forbidden-page.tsx
+│   │       not-found-page.tsx
+│   ├───movimentacao
+│   │       contas-page.tsx
+│   │       pagamentos-page.tsx
+│   │       recebimentos-page.tsx
+│   └───relatorios
+│           relatorios-page.tsx
+├───routes
+│       protected-route.tsx
+│       public-route.tsx
+├───schemas
+│   └───empresa
+│           empresa-form.schema.ts
+├───services
+│   ├───auth
+│   │   │   auth-service.ts
+│   │   │   
+│   │   └───dtos
+│   │           login-request.dto.ts
+│   │           login-response.dto.ts
+│   │           refresh-response.dto.ts
+│   ├───empresas
+│   │   │   empresa-service.ts
+│   │   └───dtos
+│   │           create-empresa.dto.ts
+│   │           empresa.dto.ts
+│   │           update-empresa.dto.ts
+│   └───http
+│           http-client.ts
+│           http-interceptors.ts
+│           http-types.ts
+│           token-service.ts
+└───types
+    │   axios.d.ts
+    ├───api
+    │       api-response.ts
+    ├───auth
+    │       permission.ts
+    ├───router
+    │       app-route.ts
+    └───styles
+            globals.css
+            
