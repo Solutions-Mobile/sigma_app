@@ -10,12 +10,8 @@ type Props = {
   collapsed?: boolean;
 };
 
-export function NavGroup({
-  item,
-  collapsed,
-}: Props) {
+export function NavGroup({ item, collapsed, }: Props) {
   const location = useLocation();
-
   const hasActiveChild = useMemo(() => {
     return item.children?.some((child) =>
       location.pathname.startsWith(
@@ -23,12 +19,8 @@ export function NavGroup({
       )
     );
   }, [item.children, location.pathname]);
-
-  const [manualOpen, setManualOpen] =
-    useState(false);
-
-  const open =
-    hasActiveChild || manualOpen;
+  const [manualOpen, setManualOpen] =    useState(false);
+  const open =    hasActiveChild || manualOpen;
 
   if (!item.children?.length) {
     return null;
@@ -66,10 +58,7 @@ export function NavGroup({
 
         {!collapsed && (
           <ChevronDown
-            className={cn(
-              "h-4 w-4 transition-transform",
-              open && "rotate-180"
-            )}
+            className={cn("h-4 w-4 transition-transform", open && "rotate-180")}
           />
         )}
       </button>

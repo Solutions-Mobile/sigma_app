@@ -8,12 +8,7 @@ type Props = {
   collapsed?: boolean;
 };
 
-export function NavItem({
-  label,
-  path,
-  icon: Icon,
-  collapsed,
-}: Props) {
+export function NavItem({ label, path, icon: Icon, collapsed, }: Props) {
   return (
     <NavLink
       to={path}
@@ -22,7 +17,7 @@ export function NavItem({
           "flex items-center gap-2 rounded-md px-3 py-2 text-sm transition-colors",
           "hover:bg-muted",
           isActive &&
-            "bg-primary text-primary-foreground",
+          "bg-primary text-primary-foreground",
           collapsed && "justify-center"
         )
       }

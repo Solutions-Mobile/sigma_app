@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { PanelLeftClose, PanelLeftOpen, } from "lucide-react";
+import { LogOut, Moon, PanelLeftClose, PanelLeftOpen, Sun, } from "lucide-react";
 import { useAuth } from "@/contexts/auth/use-auth";
 import { getSidebarCollapsed, setSidebarCollapsed, } from "@/lib/auth/sidebar-storage";
 import { hasPermission } from "@/lib/auth/permissions";
@@ -7,6 +7,9 @@ import { navigationConfig, type NavigationItem, } from "./navigation-config";
 import { NavGroup } from "./nav-group";
 import { NavItem } from "./nav-item";
 import { cn } from "@/lib/utils";
+import { useTheme } from "@/components/theme/use-theme";
+import { Button } from "../ui/button";
+
 
 function filterNavigation(
   items: NavigationItem[],
@@ -68,18 +71,20 @@ export function AppSidebar() {
     setSidebarCollapsed(next);
   }
 
+  // TESTE
+  const { theme, setTheme } = useTheme();
+  const { logout } = useAuth();
+
+  function handleToggleTheme() {
+    setTheme(theme === "dark" ? "light" : "dark");
+  }
+
+
   return (
-    <aside
-      className={cn(
-        "border-r bg-background transition-all duration-300",
-        collapsed ? "w-20" : "w-64"
-      )}
-    >
+    <aside className={cn("border-r bg-background transition-all duration-300", collapsed ? "w-20" : "w-64")}    >
       <div className="flex h-14 items-center justify-between border-b px-4">
         {!collapsed && (
-          <span className="font-semibold">
-            Financeiro JS
-          </span>
+          <span className="font-semibold"> Sigma-Finance </span>
         )}
 
         <button
@@ -118,6 +123,23 @@ export function AppSidebar() {
           );
         })}
       </nav>
+
+      {/*
+      // MARCOS - 19/06/2026 - MOVIDO DE  "Header"  
+      */}
+    
+    {/* Rodapé da Sidebar (Seus botões fixados embaixo) */}
+    <div className="flex justify-center">
+      <div className="justify-center gap-1 flex-col min-h-screen font-sans">
+              <Button variant="outline" size="icon" onClick={handleToggleTheme}>
+                {theme === "dark" ? (<Sun className="h-4 w-4" />) : (<Moon className="h-4 w-4" />)}
+              </Button>
+              <Button variant="outline" size="icon" onClick={logout}>
+                <LogOut className="h-4 w-4" />
+              </Button>
+        </div>
+    </div>
+
     </aside>
   );
 }

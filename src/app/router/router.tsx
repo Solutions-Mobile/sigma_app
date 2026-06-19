@@ -36,10 +36,7 @@ export function Router() {
             </PublicRoute>
           }
         >
-          <Route
-            index
-            element={<LoginPage />}
-          />
+          <Route index element={<LoginPage />} />
         </Route>
 
         <Route

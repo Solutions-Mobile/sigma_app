@@ -1,22 +1,22 @@
-import { LogOut, Moon, Sun } from "lucide-react";
-import { Button } from "@/components/ui/button";
+//import { LogOut, Moon, Sun } from "lucide-react";
+//import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/auth/use-auth";
+//import { useTheme } from "@/components/theme/use-theme";
 import { AppBreadcrumbs } from "@/components/breadcrumbs/app-breadcrumbs";
 import { usePageMetadata } from "@/hooks/use-page-metadata";
-import { useTheme } from "@/components/theme/use-theme";
 
 export function AppHeader() {
-  const { user, logout } = useAuth();
   const { title, breadcrumbs } = usePageMetadata();
-  const { theme, setTheme } = useTheme();
+  const { user } = useAuth();
 
-  function handleToggleTheme() {
-    setTheme(
-      theme === "dark"
-        ? "light"
-        : "dark"
-    );
-  }
+  /*
+  // MARCOS - 19/06/2026 - MOVIDO PARA "SideBar" 
+  const { user, logout } = useAuth();
+  const { theme, setTheme } = useTheme();
+   function handleToggleTheme() {
+     setTheme(theme === "dark" ? "light" : "dark");
+   }
+  */
 
   return (
     <header className="border-b bg-background px-6 py-4">
@@ -42,21 +42,19 @@ export function AppHeader() {
             </div>
           </div>
 
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={handleToggleTheme}
-          >
+          {/* // MARCOS - 19/06/2026 - MOVIDO PARA "SideBar" 
+          <Button variant="outline" size="icon" onClick={handleToggleTheme}>
             {theme === "dark" ? (
               <Sun className="h-4 w-4" />
             ) : (
               <Moon className="h-4 w-4" />
             )}
-          </Button>
+          </Button> 
 
           <Button variant="outline" size="icon" onClick={logout}          >
             <LogOut className="h-4 w-4" />
           </Button>
+          */}
         </div>
       </div>
     </header>
