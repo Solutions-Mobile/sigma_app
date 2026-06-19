@@ -1,8 +1,8 @@
 import { BrowserRouter, Navigate, Route, Routes, } from "react-router-dom";
 import { AppLayout } from "@/layouts/app-layout";
 import { AuthLayout } from "@/layouts/auth-layout";
-import { ProtectedRoute } from "@/routes/protected-route";
-import { PublicRoute } from "@/routes/public-route";
+import { ProtectedRoute } from "@/app/router/protected-route";
+import { PublicRoute } from "@/app/router/public-route";
 import { routeConfig } from "./route-config";
 import { LoginPage } from "@/pages/auth/login-page";
 import { DashboardPage } from "@/pages/dashboard/dashboard-page";

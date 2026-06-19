@@ -1,4 +1,4 @@
-.\src
+\SRC
 │   App.css
 │   App.tsx
 │   index.css
@@ -6,12 +6,14 @@
 │   vite-env.d.ts
 ├───app
 │   │   providers.tsx
+│   │   
 │   ├───layouts
 │   ├───providers
 │   │       index.tsx
 │   │       theme-provider.tsx
 │   └───router
 │           private-route.tsx
+│           protected-route.tsx
 │           public-route.tsx
 │           route-config.ts
 │           router.tsx
@@ -80,7 +82,6 @@
 ├───hooks
 │   │   use-page-metadata.ts
 │   ├───api
-│   │       use-empresas.ts
 │   ├───mutations
 │   │       use-create-empresa.ts
 │   │       use-delete-empresa.ts
@@ -134,16 +135,12 @@
 │   │       recebimentos-page.tsx
 │   └───relatorios
 │           relatorios-page.tsx
-├───routes
-│       protected-route.tsx
-│       public-route.tsx
 ├───schemas
 │   └───empresa
 │           empresa-form.schema.ts
 ├───services
 │   ├───auth
 │   │   │   auth-service.ts
-│   │   │   
 │   │   └───dtos
 │   │           login-request.dto.ts
 │   │           login-response.dto.ts
@@ -153,6 +150,7 @@
 │   │   └───dtos
 │   │           create-empresa.dto.ts
 │   │           empresa.dto.ts
+│   │           find-empresas-params.dto.ts
 │   │           update-empresa.dto.ts
 │   └───http
 │           http-client.ts
@@ -163,6 +161,8 @@
     │   axios.d.ts
     ├───api
     │       api-response.ts
+    │       paginated-response.ts
+    │       pagination-params.ts
     ├───auth
     │       permission.ts
     ├───router

@@ -26,5 +26,5 @@
     "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src", "_obsoletos/test-auth-page.tsx"]
+  "include": ["src", "_obsoletos/test-auth-page.tsx", "_obsoletos/xuse-empresas.ts"]
 }
