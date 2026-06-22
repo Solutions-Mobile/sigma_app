@@ -32,6 +32,7 @@ export function empresaColumns({ onEdit, onDelete, }: Props): DataTableColumn<Em
         {
             key: "id",
             label: "Ações",
+            sortable: false,
             render: (_, empresa,): ReactNode => (<EmpresaTableActions empresa={empresa} onEdit={onEdit} onDelete={onDelete} />
             ),
         },

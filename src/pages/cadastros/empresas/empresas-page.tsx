@@ -59,6 +59,7 @@ export function EmpresasPage() {
               { key: "documentNumber", label: "Documento", },
               {
                 key: "id", label: "Ações",
+                sortable: false,
                 render: (
                   _,
                   row,
