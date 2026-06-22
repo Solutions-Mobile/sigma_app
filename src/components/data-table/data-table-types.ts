@@ -1,3 +1,4 @@
+//src\components\data-table\data-table-types.ts
 export type DataTableColumn<T> = {
   key: keyof T;
 
@@ -8,14 +9,3 @@ export type DataTableColumn<T> = {
     row: T,
   ) => React.ReactNode;
 };
-/*
-export type DataTableColumn<T> = {
-  key: keyof T;
-  label: string;
-};
-
-export type DataTableProps<T> = {
-  data: T[];
-  columns: DataTableColumn<T>[];
-};
-*/

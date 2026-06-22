@@ -1,18 +1,16 @@
-// import axios from "axios";
+//src\lib\axios\interceptors.ts
+import type { AxiosInstance, InternalAxiosRequestConfig } from "axios";
 import { AuthStorage } from "@/lib/auth/auth-storage";
 import { authService } from "@/services/auth/auth-service";
-import { api } from "./api";
 
 let isRefreshing = false;
-
 let refreshPromise: Promise<void> | null = null;
 
-export function setupInterceptors() {
+export function setupInterceptors(api: AxiosInstance) {
   api.interceptors.request.use(
-    (config) => {
+    (config: InternalAxiosRequestConfig) => {
       const token = AuthStorage.getAccessToken();
-
-      console.log("Authorization Token: ", token);
+      console.log("Authorization Token:", token);
 
       if (token) {
         config.headers.Authorization = `Bearer ${token}`;
@@ -20,6 +18,7 @@ export function setupInterceptors() {
 
       return config;
     },
+
     (error) => Promise.reject(error),
   );
 
@@ -73,6 +72,5 @@ async function executeRefresh() {
   const response = await authService.refreshToken(refreshToken);
 
   AuthStorage.setAccessToken(response.accessToken);
-
   AuthStorage.setRefreshToken(response.refreshToken);
 }

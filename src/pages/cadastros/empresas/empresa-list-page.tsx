@@ -1,156 +1,105 @@
-import { useState } from "react";
+//src\pages\cadastros\empresas\empresa-list-page.tsx
+import { useMemo } from "react";
+import { AppPage } from "@/components/app/app-page";
 import { DataTable } from "@/components/data-table/data-table";
-import { DataTableLoading } from "@/components/data-table/data-table-loading";
-import { ConfirmDialog } from "@/components/dialogs/confirm-dialog";
-import { empresaColumns } from "./empresa-columns";
-import { EmpresaFormDialog } from "./components/empresa-form-dialog";
+import { DataTablePagination } from "@/components/data-table/data-table-pagination";
+import { DataTableSearch } from "@/components/data-table/data-table-search";
+import { useDebounce } from "@/hooks/use-debounce";
+import { useUrlPagination } from "@/hooks/use-url-pagination";
 import { useEmpresasQuery } from "@/hooks/queries/use-empresas-query";
-import { useDeleteEmpresa } from "@/hooks/mutations/use-delete-empresa";
-import { useUpdateEmpresa } from "@/hooks/mutations/use-update-empresa";
+import { empresaColumns } from "./empresa-columns";
 import type { EmpresaDTO } from "@/services/empresas/dtos/empresa.dto";
-import type { EmpresaFormData } from "@/schemas/empresa/empresa-form.schema";
 
 export function EmpresaListPage() {
-  const [page, setPage] = useState(1);
-  const [limit] = useState(10);
-  const [search] = useState("");
+  const { page, limit, search, setPage, setSearch, } = useUrlPagination();
+  const debouncedSearch = useDebounce(search, 500);
+  const queryParams = useMemo(() => (
+    { page, limit, search: debouncedSearch, }),
+    [page, limit, debouncedSearch,],
+  );
 
-  const [    selectedEmpresaDelete,    setSelectedEmpresaDelete,  ] = useState<EmpresaDTO | null>(null);
-  const [    selectedEmpresaEdit,    setSelectedEmpresaEdit,  ] = useState<EmpresaDTO | null>(null);
-  const empresasQuery = useEmpresasQuery({    page,    limit,    search,  });
-  const deleteMutation = useDeleteEmpresa();
-  const updateMutation = useUpdateEmpresa();
-  const empresas =    empresasQuery.data?.data ?? [];
-  const loading =    empresasQuery.isLoading ||    empresasQuery.isFetching;
+  const { data, isLoading, isFetching, isError, refetch, } = useEmpresasQuery(queryParams);
+  const columns = useMemo(() =>
+    empresaColumns({
+      onEdit: (
+        empresa,
+      ) => {
+        console.log(
+          "edit",
+          empresa,
+        );
+      },
 
-  function handleEdit(    empresa: EmpresaDTO,  ) {
-    setSelectedEmpresaEdit(      empresa,    );
-  }
+      onDelete: (
+        empresa,
+      ) => {
+        console.log(
+          "delete",
+          empresa,
+        );
+      },
+    }),
 
-  function handleOpenDelete(    empresa: EmpresaDTO,  ) {
-    setSelectedEmpresaDelete(      empresa,    );
-  }
-
-  function handlePageChange(    nextPage: number,  ) {
-    setPage(nextPage);
-    }
-
-  async function handleDelete() {
-    if (
-      !selectedEmpresaDelete
-    ) {
-      return;
-    }
-
-    await deleteMutation.mutateAsync(      selectedEmpresaDelete.id,    );
-
-    setSelectedEmpresaDelete(      null,    );
-  }
-
-  async function handleEditSubmit(    data: EmpresaFormData,  ) {
-    if (
-      !selectedEmpresaEdit
-    ) {
-      return;
-    }
-
-    await updateMutation.mutateAsync({      id: selectedEmpresaEdit.id,      payload: data,    });
-
-    setSelectedEmpresaEdit(      null,    );
-  }
+    [],
+  );
 
   return (
-    <>
-      {loading ? (
-        <DataTableLoading />
-      ) : (
-        <DataTable
-          columns={empresaColumns({
-            onEdit: handleEdit,
-
-            onDelete:
-              handleOpenDelete,
-          })}
-          data={empresas}
-        />
-      )}
-
-      <div className="mt-4 flex items-center justify-between">
-        <span className="text-sm text-muted-foreground">
-          Página {page} de{" "}
-          {empresasQuery.data
-            ?.totalPages ?? 1}
-        </span>
-
-        <div className="flex items-center gap-2">
-          <button
-            type="button"
-            disabled={page <= 1}
-            onClick={() =>
-              handlePageChange(
-                page - 1,
-              )
-            }
-            className="rounded border px-3 py-1 text-sm disabled:opacity-50"
-          >
-            Anterior
-          </button>
-
-          <button
-            type="button"
-            disabled={
-              page >=
-              (empresasQuery.data
-                ?.totalPages ?? 1)
-            }
-            onClick={() =>
-              handlePageChange(
-                page + 1,
-              )
-            }
-            className="rounded border px-3 py-1 text-sm disabled:opacity-50"
-          >
-            Próxima
-          </button>
+    <AppPage
+      toolbar={
+        <div className="flex items-center justify-between">
+          <DataTableSearch
+            value={search}
+            disabled={isFetching}
+            onChange={setSearch}
+          />
         </div>
+      }
+    >
+      <div className="space-y-4">
+        {isError ? (
+          <div className="flex flex-col items-center justify-center gap-4 rounded-md border py-10">
+            <p className="text-sm text-muted-foreground">
+              Falha ao carregar empresas
+            </p>
+
+            <button
+              className="text-sm font-medium underline"
+              onClick={() =>
+                refetch()
+              }
+            >
+              Tentar novamente
+            </button>
+          </div>
+        ) : (
+          <>
+            <DataTable<EmpresaDTO>
+              data={data?.data ?? []}
+              columns={columns}
+              loading={
+                isLoading ||
+                isFetching
+              }
+            />
+
+            <DataTablePagination
+              page={data?.page ?? 1}
+              limit={
+                data?.limit ?? 10
+              }
+              totalPages={
+                data?.totalPages ?? 1
+              }
+              totalRecords={
+                data?.totalRecords ??
+                0
+              }
+              disabled={isFetching}
+              onPageChange={setPage}
+            />
+          </>
+        )}
       </div>
-
-      <ConfirmDialog
-        open={
-          !!selectedEmpresaDelete
-        }
-        title="Excluir empresa"
-        description={`Deseja excluir a empresa "${selectedEmpresaDelete?.companyName}"?`}
-        loading={
-          deleteMutation.isPending
-        }
-        onCancel={() =>
-          setSelectedEmpresaDelete(
-            null,
-          )
-        }
-        onConfirm={handleDelete}
-      />
-
-      <EmpresaFormDialog
-        open={
-          !!selectedEmpresaEdit
-        }
-        empresa={
-          selectedEmpresaEdit
-        }
-        loading={
-          updateMutation.isPending
-        }
-        onClose={() =>
-          setSelectedEmpresaEdit(
-            null,
-          )
-        }
-        onSubmit={
-          handleEditSubmit
-        }
-      />
-    </>
+    </AppPage>
   );
 }

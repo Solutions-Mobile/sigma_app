@@ -1,10 +1,11 @@
+//src\lib\axios\api.ts
 import axios from "axios";
+import { setupInterceptors } from "./interceptors";
 
 export const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
   timeout: 30000,
-  headers: {
-    "Content-Type": "application/json",
-  },
+  headers: { "Content-Type": "application/json" },
 });
 
+setupInterceptors(api);

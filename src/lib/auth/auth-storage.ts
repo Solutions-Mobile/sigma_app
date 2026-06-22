@@ -1,3 +1,4 @@
+//src\lib\auth\auth-storage.ts
 import type { LoginResponseDTO } from "@/services/auth/dtos/login-response.dto";
 
 const ACCESS_TOKEN_KEY = "financeirojs-access-token";
@@ -7,9 +8,7 @@ const USER_KEY = "financeirojs-user";
 export class AuthStorage {
   static setSession(session: LoginResponseDTO): void {
     localStorage.setItem(ACCESS_TOKEN_KEY, session.accessToken);
-
     localStorage.setItem(REFRESH_TOKEN_KEY, session.refreshToken);
-
     localStorage.setItem(USER_KEY, JSON.stringify(session.user));
   }
 

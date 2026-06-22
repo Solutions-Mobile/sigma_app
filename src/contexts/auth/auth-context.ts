@@ -1,3 +1,4 @@
+//src\contexts\auth\auth-context.ts
 import { createContext } from "react";
 import type { AuthContextData } from "./types";
 

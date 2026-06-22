@@ -1,12 +1,11 @@
+//src\contexts\auth\auth-provider.tsx
 import { useCallback, useMemo, useState, } from "react";
 import { AuthContext } from "./auth-context";
 import type { AuthUser } from "./types";
 import { AuthStorage } from "@/lib/auth/auth-storage";
 import { authService } from "@/services/auth/auth-service";
 
-interface AuthProviderProps {
-  children: React.ReactNode;
-}
+interface AuthProviderProps {  children: React.ReactNode;}
 
 export function AuthProvider({ children, }: AuthProviderProps) {
   const [user, setUser] = useState<AuthUser | null>(() => AuthStorage.getUser(),);
@@ -21,6 +20,8 @@ export function AuthProvider({ children, }: AuthProviderProps) {
           login: loginValue,
           password,
         });
+
+       console.log("response: ", response)
 
       AuthStorage.setSession(response);
 

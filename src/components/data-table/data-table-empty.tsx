@@ -1,24 +1,17 @@
-type Props = {
-  message?: string;
-};
+import {
+  TableCell,
+  TableRow,
+} from "@/components/ui/table";
 
-export function DataTableEmpty({
-  message = "Nenhum registro encontrado",
-}: Props) {
+export function DataTableEmpty() {
   return (
-    <div
-      className="
-        flex
-        h-40
-        items-center
-        justify-center
-        rounded-md
-        border
-      "
-    >
-      <span className="text-sm text-muted-foreground">
-        {message}
-      </span>
-    </div>
+    <TableRow>
+      <TableCell
+        colSpan={999}
+        className="h-24 text-center"
+      >
+        Nenhum registro encontrado.
+      </TableCell>
+    </TableRow>
   );
 }
