@@ -1,21 +1,11 @@
 //src\components\data-table\data-table.tsx
 import { useMemo, useState } from "react";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow, } from "@/components/ui/table";
 import { DataTableEmpty } from "./data-table-empty";
 import { DataTableHeader } from "./data-table-header";
 import { DataTableLoading } from "./data-table-loading";
 import { DataTableSearch } from "./data-table-search";
-import type {
-  DataTableColumn,
-  DataTableSort,
-} from "./data-table-types";
+import type { DataTableColumn, DataTableSort, } from "./data-table-types";
 
 type SearchProps = {
   value: string;
@@ -31,23 +21,11 @@ type Props<T> = {
   search?: SearchProps;
 };
 
-export function DataTable<T>({
-  data,
-  columns,
-  loading = false,
-  search,
-}: Props<T>) {
-  const [sort, setSort] =
-    useState<DataTableSort<T>>();
-
+export function DataTable<T>({ data, columns, loading = false, search, }: Props<T>) {
+  const [sort, setSort] = useState<DataTableSort<T>>();
   const sortedData = useMemo(() => {
-    if (!sort) {
-      return data;
-    }
-
-    const column = columns.find(
-      (item) => item.key === sort.key,
-    );
+    if (!sort) { return data; }
+    const column = columns.find((item) => item.key === sort.key,);
 
     if (!column) {
       return data;
@@ -164,16 +142,16 @@ export function DataTable<T>({
                         >
                           {column.render
                             ? column.render(
-                                row[
-                                  column.key
-                                ],
-                                row,
-                              )
+                              row[
+                              column.key
+                              ],
+                              row,
+                            )
                             : String(
-                                row[
-                                  column.key
-                                ] ?? "",
-                              )}
+                              row[
+                              column.key
+                              ] ?? "",
+                            )}
                         </TableCell>
                       ),
                     )}

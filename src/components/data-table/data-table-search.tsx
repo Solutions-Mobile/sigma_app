@@ -14,15 +14,8 @@ type Props = {
   onChange: (value: string) => void;
 };
 
-export function DataTableSearch({
-  value,
-  placeholder = "Pesquisar...",
-  disabled = false,
-  onChange,
-}: Props) {
-  const handleClear = () => {
-    onChange("");
-  };
+export function DataTableSearch({ value, placeholder = "Pesquisar...", disabled = false, onChange, }: Props) {
+  const handleClear = () => { onChange(""); };
 
   return (
     <div className="relative w-full max-w-sm">

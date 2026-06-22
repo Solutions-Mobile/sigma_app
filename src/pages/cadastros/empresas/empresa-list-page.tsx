@@ -140,7 +140,6 @@ export function EmpresaListPage() {
       toolbar={
         <PageToolbar>
           <div />
-
           <Button
             type="button"
             onClick={() =>
