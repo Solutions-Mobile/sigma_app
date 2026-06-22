@@ -6,7 +6,7 @@ import { PublicRoute } from "@/app/router/public-route";
 import { routeConfig } from "./route-config";
 import { LoginPage } from "@/pages/auth/login-page";
 import { DashboardPage } from "@/pages/dashboard/dashboard-page";
-import { EmpresasPage } from "@/pages/cadastros/empresas/empresas-page";
+import { EmpresaListPage } from "@/pages/cadastros/empresas/empresa-list-page";
 import { PerfisPage } from "@/pages/cadastros/perfis-page";
 import { UsuariosPage } from "@/pages/cadastros/usuarios-page";
 import { ConfiguracoesPage } from "@/pages/configuracoes/configuracoes-page";
@@ -78,7 +78,7 @@ export function Router() {
                   "/cadastros/empresas"
                 )}
               >
-                <EmpresasPage />
+                <EmpresaListPage />
               </ProtectedRoute>
             }
           />
@@ -88,6 +88,19 @@ export function Router() {
             path="cadastros/empresas/nova"
             element={
               <ProtectedRoute>
+                <EmpresaCreatePage />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="cadastros/empresas/:id"
+            element={
+              <ProtectedRoute
+                permission={getPermission(
+                  "/cadastros/empresas"
+                )}
+              >
                 <EmpresaCreatePage />
               </ProtectedRoute>
             }

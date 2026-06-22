@@ -1,5 +1,6 @@
 //src\pages\cadastros\empresas\empresa-list-page.tsx
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
+import { useNavigate } from "react-router-dom";
 import { AppPage } from "@/components/app/app-page";
 import { PageToolbar } from "@/components/app/page-toolbar";
 import { DataTable } from "@/components/data-table/data-table";
@@ -11,6 +12,8 @@ import { useEmpresasQuery } from "@/hooks/queries/use-empresas-query";
 import { empresaColumns } from "./empresa-columns";
 import type { EmpresaDTO } from "@/services/empresas/dtos/empresa.dto";
 import mockEmpresas from "../../../../__docs/mocks/MOCK_DATA_EMPRESA.json";
+import { getAppSettings } from "@/lib/app-settings";
+import { appToast } from "@/lib/toast/toast";
 
 type MockEmpresa = {
   id: number;
@@ -31,8 +34,13 @@ const empresasMock = (
 );
 
 export function EmpresaListPage() {
-  const { page, limit, search, setPage, setSearch, } = useUrlPagination();
-  const [usingSortMock, setUsingSortMock] = useState(false);
+  const navigate = useNavigate();
+  const appSettings = getAppSettings();
+  const { page, limit, search, setPage, setSearch, } = useUrlPagination({
+    defaultLimit: appSettings.pageSize,
+  });
+  const usingSortMock =
+    appSettings.empresaDataSource === "mock";
   const debouncedSearch = useDebounce(search, 500);
   const queryParams = useMemo(() => (
     { page, limit, search: debouncedSearch, }),
@@ -56,12 +64,41 @@ export function EmpresaListPage() {
       ]
         .join(" ")
         .toLocaleLowerCase("pt-BR")
-        .includes(normalizedSearch),
+      .includes(normalizedSearch),
     );
   }, [debouncedSearch]);
+  const mockTotalPages = Math.max(
+    Math.ceil(mockData.length / limit),
+    1,
+  );
+  const mockPage = Math.min(
+    page,
+    mockTotalPages,
+  );
+  const paginatedMockData = useMemo(() => {
+    const start = (mockPage - 1) * limit;
+    const end = start + limit;
+
+    return mockData.slice(start, end);
+  }, [limit, mockData, mockPage]);
   const tableData = usingSortMock
-    ? mockData
+    ? paginatedMockData
     : data?.data ?? [];
+  const pagination = usingSortMock
+    ? {
+        page: mockPage,
+        limit,
+        totalPages: mockTotalPages,
+        totalRecords: mockData.length,
+        disabled: false,
+      }
+    : {
+        page: data?.page ?? 1,
+        limit: data?.limit ?? 10,
+        totalPages: data?.totalPages ?? 1,
+        totalRecords: data?.totalRecords ?? 0,
+        disabled: isFetching,
+      };
   const loading =
     !usingSortMock && (
       isLoading ||
@@ -72,9 +109,16 @@ export function EmpresaListPage() {
       onEdit: (
         empresa,
       ) => {
-        console.log(
-          "edit",
-          empresa,
+        if (usingSortMock) {
+          appToast.info(
+            "O mock é usado apenas para testar a listagem",
+          );
+
+          return;
+        }
+
+        navigate(
+          `/cadastros/empresas/${empresa.id}`,
         );
       },
 
@@ -88,29 +132,24 @@ export function EmpresaListPage() {
       },
     }),
 
-    [],
+    [navigate, usingSortMock],
   );
 
   return (
     <AppPage
       toolbar={
         <PageToolbar>
-          <div className="text-sm text-muted-foreground">
-            {usingSortMock
-              ? "Modo teste: mock local para validar sort"
-              : "Modo banco: dados reais"}
-          </div>
+          <div />
 
           <Button
             type="button"
-            variant="outline"
             onClick={() =>
-              setUsingSortMock((current) => !current)
+              navigate(
+                "/cadastros/empresas/nova",
+              )
             }
           >
-            {usingSortMock
-              ? "Usar banco"
-              : "Usar mock de sort"}
+            Nova Empresa
           </Button>
         </PageToolbar>
       }
@@ -144,23 +183,20 @@ export function EmpresaListPage() {
               loading={loading}
             />
 
-            {!usingSortMock && (
-              <DataTablePagination
-                page={data?.page ?? 1}
-                limit={
-                  data?.limit ?? 10
-                }
-                totalPages={
-                  data?.totalPages ?? 1
-                }
-                totalRecords={
-                  data?.totalRecords ??
-                  0
-                }
-                disabled={isFetching}
-                onPageChange={setPage}
-              />
-            )}
+            <DataTablePagination
+              page={pagination.page}
+              limit={pagination.limit}
+              totalPages={
+                pagination.totalPages
+              }
+              totalRecords={
+                pagination.totalRecords
+              }
+              disabled={
+                pagination.disabled
+              }
+              onPageChange={setPage}
+            />
           </>
         )}
       </div>

@@ -22,6 +22,14 @@ export const empresaService = {
     return response.data;
   },
 
+  async findById(id: string): Promise<EmpresaDTO> {
+    const response = await api.get<EmpresaDTO>(
+      `${BASE_URL}/${id}`,
+    );
+
+    return response.data;
+  },
+
   async create(payload: CreateEmpresaDTO): Promise<EmpresaDTO> {
     const response = await api.post<EmpresaDTO>(BASE_URL, payload);
 
