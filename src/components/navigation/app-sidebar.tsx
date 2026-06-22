@@ -81,7 +81,7 @@ export function AppSidebar() {
 
 
   return (
-    <aside className={cn("border-r bg-background transition-all duration-300", collapsed ? "w-20" : "w-64")}    >
+    <aside className={cn("flex h-full flex-col border-r bg-background transition-all duration-300", collapsed ? "w-20" : "w-64")}    >
       <div className="flex h-14 items-center justify-between border-b px-4">
         {!collapsed && (
           <span className="font-semibold"> Sigma-Finance </span>
@@ -100,7 +100,7 @@ export function AppSidebar() {
         </button>
       </div>
 
-      <nav className="space-y-2 p-3">
+      <nav className="flex-1 space-y-2 p-3">
         {items.map((item) => {
           if (item.children?.length) {
             return (
@@ -129,15 +129,13 @@ export function AppSidebar() {
       */}
     
     {/* Rodapé da Sidebar (Seus botões fixados embaixo) */}
-    <div className="flex justify-center">
-      <div className="justify-center gap-1 flex-col min-h-screen font-sans">
-              <Button variant="outline" size="icon" onClick={handleToggleTheme}>
-                {theme === "dark" ? (<Sun className="h-4 w-4" />) : (<Moon className="h-4 w-4" />)}
-              </Button>
-              <Button variant="outline" size="icon" onClick={logout}>
-                <LogOut className="h-4 w-4" />
-              </Button>
-        </div>
+    <div className={cn("mt-auto flex border-t p-3", collapsed ? "flex-col items-center gap-2" : "items-center justify-center gap-2")}>
+      <Button variant="outline" size="icon" onClick={handleToggleTheme}>
+        {theme === "dark" ? (<Sun className="h-4 w-4" />) : (<Moon className="h-4 w-4" />)}
+      </Button>
+      <Button variant="outline" size="icon" onClick={logout}>
+        <LogOut className="h-4 w-4" />
+      </Button>
     </div>
 
     </aside>
