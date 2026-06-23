@@ -8,9 +8,9 @@ import { DataTablePagination } from "@/components/data-table/data-table-paginati
 import { Button } from "@/components/ui/button";
 import { useDebounce } from "@/hooks/use-debounce";
 import { useUrlPagination } from "@/hooks/use-url-pagination";
-import { useEmpresasQuery } from "@/hooks/queries/use-empresas-query";
-import { empresaColumns } from "./empresa-columns";
-import type { EmpresaDTO } from "@/services/empresas/dtos/empresa.dto";
+import { useEmpresasQuery } from "@/features/tenants/hooks/use-empresas-query";
+import { empresaColumns } from "../components/tenant-columns";
+import type { EmpresaDTO } from "@/features/tenants/types/empresa.dto";
 import mockEmpresas from "../../../../__docs/mocks/MOCK_DATA_EMPRESA.json";
 import { getAppSettings } from "@/lib/app-settings";
 import { appToast } from "@/lib/toast/toast";

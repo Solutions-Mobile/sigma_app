@@ -9,13 +9,11 @@ import { AppForm } from "@/components/forms/app-form";
 import { FormInput } from "@/components/forms/form-input";
 import { FormActions } from "@/components/forms/form-actions";
 import { LoadingButton } from "@/components/feedback/loading-button";
-import {
-  type EmpresaFormData,
-  empresaFormSchema,
-} from "@/schemas/empresa/empresa-form.schema";
-import { useCreateEmpresa } from "@/hooks/mutations/use-create-empresa";
-import { useUpdateEmpresa } from "@/hooks/mutations/use-update-empresa";
-import { useEmpresaQuery } from "@/hooks/queries/use-empresa-query";
+import {  type EmpresaFormData,  empresaFormSchema,} from "@/features/tenants/schemas/empresa-form.schema";
+import { useCreateEmpresa } from "@/features/tenants/hooks/use-tenant-create";
+import { useUpdateEmpresa } from "@/features/tenants/hooks/use-tenant-update";
+import { useEmpresasQuery } from "../hooks/use-tenants-list";
+//import { useEmpresaQuery } from "@/features/tenants/hooks/use-tenants-list";
 
 export function EmpresaCreatePage() {
   const navigate = useNavigate();
@@ -27,7 +25,7 @@ export function EmpresaCreatePage() {
   const updateMutation =
     useUpdateEmpresa();
   const empresaQuery =
-    useEmpresaQuery(id);
+    useEmpresasQuery(id);
 
   const {
     register,

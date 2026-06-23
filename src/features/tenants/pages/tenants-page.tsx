@@ -1,3 +1,17 @@
+import { AppPage } from "@/components/app/app-page";
+import { PageToolbar } from "@/components/app/page-toolbar";
+import { TenantTable } from "../components/tenant-table";
+
+export default function TenantsPage() {
+  return (
+    <AppPage>
+      <PageToolbar title="Tenants" />
+      <TenantTable />
+    </AppPage>
+  );
+}
+
+/*
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -6,8 +20,8 @@ import { PageToolbar } from "@/components/app/page-toolbar";
 import { DataTable } from "@/components/data-table/data-table";
 import { DataTableActions } from "@/components/data-table/data-table-actions";
 import { DataTableLoading } from "@/components/data-table/data-table-loading";
-import { useEmpresasQuery } from "@/hooks/queries/use-empresas-query";
-import type { EmpresaDTO } from "@/services/empresas/dtos/empresa.dto";
+import { useEmpresasQuery } from "@/features/tenants/hooks/use-empresas-query";
+import type { EmpresaDTO } from "@/features/tenants/types/tenant.dto";
 
 export function EmpresasPage() {
   const navigate = useNavigate();
@@ -97,3 +111,4 @@ export function EmpresasPage() {
     </AppPage>
   );
 }
+*/

@@ -1,16 +1,16 @@
-//src\pages\cadastros\empresas\empresa-table-actions.tsx
+//src\pages\cadastros\tenants\tenant-table-actions.tsx
 import { MoreHorizontal, Pencil, Trash2, } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, } from "@/components/ui/dropdown-menu";
-import type { EmpresaDTO } from "@/services/empresas/dtos/empresa.dto";
+import type { TenantDTO } from "@/features/tenants/types/tenant.dto";
 
-type EmpresaTableActionsProps = {
-    empresa: EmpresaDTO;
-    onEdit: (empresa: EmpresaDTO,) => void;
-    onDelete: (empresa: EmpresaDTO,) => void;
+type TenantTableActionsProps = {
+    tenant: TenantDTO;
+    onEdit: (tenant: TenantDTO,) => void;
+    onDelete: (tenant: TenantDTO,) => void;
 };
 
-export function EmpresaTableActions({ empresa, onEdit, onDelete, }: EmpresaTableActionsProps) {
+export function TenantTableActions({ tenant, onEdit, onDelete, }: TenantTableActionsProps) {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -23,7 +23,7 @@ export function EmpresaTableActions({ empresa, onEdit, onDelete, }: EmpresaTable
                 <DropdownMenuItem
                     onSelect={(event) => {
                         event.preventDefault();
-                        onEdit(empresa);
+                        onEdit(tenant);
                     }}
                 >
                     <Pencil className="mr-2 h-4 w-4" />
@@ -35,7 +35,7 @@ export function EmpresaTableActions({ empresa, onEdit, onDelete, }: EmpresaTable
                     onSelect={(event) => {
                         event.preventDefault();
 
-                        onDelete(empresa);
+                        onDelete(tenant);
                     }}
                     className="text-red-600"
                 >

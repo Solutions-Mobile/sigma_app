@@ -1,42 +1,18 @@
 import { useEffect } from "react";
-
 import { zodResolver } from "@hookform/resolvers/zod";
-
-import {
-  useForm,
-} from "react-hook-form";
-
-import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-
+import {  useForm,} from "react-hook-form";
+import {  Dialog,  DialogContent,  DialogFooter,  DialogHeader,  DialogTitle,} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-
 import { Input } from "@/components/ui/input";
-
-import {
-  empresaFormSchema,
-  type EmpresaFormData,
-} from "@/schemas/empresa/empresa-form.schema";
-
-import type { EmpresaDTO } from "@/services/empresas/dtos/empresa.dto";
+import {  empresaFormSchema,  type EmpresaFormData,} from "@/features/tenants/schemas/tenant.schema";
+import type { TenantDTO } from "../types/tenant.dto";
 
 type EmpresaFormDialogProps = {
   open: boolean;
-
-  empresa: EmpresaDTO | null;
-
+  empresa: TenantDTO | null;
   loading: boolean;
-
   onClose: () => void;
-
-  onSubmit: (
-    data: EmpresaFormData,
-  ) => Promise<void>;
+  onSubmit: (    data: EmpresaFormData,  ) => Promise<void>;
 };
 
 export function EmpresaFormDialog({
