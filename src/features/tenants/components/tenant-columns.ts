@@ -1,22 +1,22 @@
-import type { ColumnDef } from "@tanstack/react-table";
+import type { DataTableColumn } from "@/components/data-table/data-table-types";
 import type { Tenant } from "../types/tenant.types";
 
-export const tenantColumns: ColumnDef<Tenant>[] = [
+export const tenantColumns: DataTableColumn<Tenant>[] = [
   {
-    accessorKey: "companyName",
-    header: "Razão Social",
+    key: "companyName",
+    label: "Razão Social",
   },
   {
-    accessorKey: "tradingName",
-    header: "Fantasia",
+    key: "tradingName",
+    label: "Fantasia",
   },
   {
-    accessorKey: "documentNumber",
-    header: "Documento",
+    key: "documentNumber",
+    label: "Documento",
   },
   {
-    accessorKey: "isActive",
-    header: "Ativo",
-    cell: ({ row }) => (row.original.isActive ? "Sim" : "Não"),
+    key: "isActive",
+    label: "Ativo",
+    render: (value) => (value ? "Sim" : "Não"),
   },
 ];

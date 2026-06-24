@@ -1,7 +1,6 @@
-//VAZIO
 import { useQuery } from "@tanstack/react-query";
 import { tenantService } from "../services/tenant-service";
-import { tenantKeys } from "./tenant-keys";
+//import { tenantKeys } from "./tenant-keys";
 
 export function useEmpresaQuery(id?: string) {
   return useQuery({

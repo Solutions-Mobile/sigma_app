@@ -15,10 +15,7 @@ import { RecebimentosPage } from "@/pages/movimentacao/recebimentos-page";
 import { RelatoriosPage } from "@/pages/relatorios/relatorios-page";
 import { ForbiddenPage } from "@/pages/errors/forbidden-page";
 import { NotFoundPage } from "@/pages/errors/not-found-page";
-
-//REMOVER
-import { EmpresaListPage } from "@/features/tenants/_remover/empresa-list-page";
-import { EmpresaCreatePage } from "@/features/tenants/_remover/empresa-create-page";
+import TenantsPage from "@/features/tenants/pages/tenants-page";
 
 function getPermission(path: string) {
   return routeConfig.find(
@@ -80,7 +77,7 @@ export function Router() {
                   "/cadastros/empresas"
                 )}
               >
-                <EmpresaListPage />
+                <TenantsPage  />
               </ProtectedRoute>
             }
           />
@@ -90,7 +87,7 @@ export function Router() {
             path="cadastros/empresas/nova"
             element={
               <ProtectedRoute>
-                <EmpresaCreatePage />
+                <TenantsPage  />
               </ProtectedRoute>
             }
           />
@@ -103,7 +100,7 @@ export function Router() {
                   "/cadastros/empresas"
                 )}
               >
-                <EmpresaCreatePage />
+                <TenantsPage  />
               </ProtectedRoute>
             }
           />
