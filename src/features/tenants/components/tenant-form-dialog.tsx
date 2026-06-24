@@ -4,29 +4,29 @@ import {  useForm,} from "react-hook-form";
 import {  Dialog,  DialogContent,  DialogFooter,  DialogHeader,  DialogTitle,} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import {  empresaFormSchema,  type EmpresaFormData,} from "@/features/tenants/schemas/tenant.schema";
+import {  tenantFormSchema,  type TenantFormData,} from "@/features/tenants/schemas/tenant.schema";
 import type { TenantDTO } from "../types/tenant.dto";
 
-type EmpresaFormDialogProps = {
+type TenantFormDialogProps = {
   open: boolean;
-  empresa: TenantDTO | null;
+  tenant: TenantDTO | null;
   loading: boolean;
   onClose: () => void;
-  onSubmit: (    data: EmpresaFormData,  ) => Promise<void>;
+  onSubmit: (    data: TenantFormData,  ) => Promise<void>;
 };
 
-export function EmpresaFormDialog({
+export function TenantFormDialog({
   open,
-  empresa,
+  tenant,
   loading,
   onClose,
   onSubmit,
-}: EmpresaFormDialogProps) {
+}: TenantFormDialogProps) {
   const form =
-    useForm<EmpresaFormData>({
+    useForm<TenantFormData>({
       resolver:
         zodResolver(
-          empresaFormSchema,
+          tenantFormSchema,
         ),
 
       defaultValues: {
@@ -37,7 +37,7 @@ export function EmpresaFormDialog({
     });
 
   useEffect(() => {
-    if (!empresa) {
+    if (!tenant) {
       form.reset({
         companyName: "",
         tradingName: "",
@@ -49,18 +49,18 @@ export function EmpresaFormDialog({
 
     form.reset({
       companyName:
-        empresa.companyName,
+        tenant.companyName,
 
       tradingName:
-        empresa.tradingName,
+        tenant.tradingName,
 
       documentNumber:
-        empresa.documentNumber,
+        tenant.documentNumber,
     });
-  }, [empresa, form]);
+  }, [tenant, form]);
 
   async function handleSubmit(
-    data: EmpresaFormData,
+    data: TenantFormData,
   ) {
     await onSubmit(data);
   }
@@ -77,7 +77,7 @@ export function EmpresaFormDialog({
       <DialogContent>
         <DialogHeader>
           <DialogTitle>
-            Editar empresa
+            Editar tenant
           </DialogTitle>
         </DialogHeader>
 
