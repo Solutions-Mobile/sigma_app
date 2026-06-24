@@ -4,6 +4,8 @@ import { tenantColumns } from "./tenant-columns";
 
 export function TenantTable() {
   const { data, isLoading } = useTenantsList({    page: 1,    limit: 50,  });
+  // console.log("TENANTS QUERY RESULT:", data);
+  // console.log("TENANTS ROWS:", data?.data);
 
   return (
     <DataTable

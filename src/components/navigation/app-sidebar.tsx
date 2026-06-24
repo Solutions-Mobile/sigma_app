@@ -71,7 +71,6 @@ export function AppSidebar() {
     setSidebarCollapsed(next);
   }
 
-  // TESTE
   const { theme, setTheme } = useTheme();
   const { logout } = useAuth();
 
@@ -124,10 +123,6 @@ export function AppSidebar() {
         })}
       </nav>
 
-      {/*
-      // MARCOS - 19/06/2026 - MOVIDO DE  "Header"  
-      */}
-    
     {/* Rodapé da Sidebar (Seus botões fixados embaixo) */}
     <div className={cn("mt-auto flex border-t p-3", collapsed ? "flex-col items-center gap-2" : "items-center justify-center gap-2")}>
       <Button variant="outline" size="icon" onClick={handleToggleTheme}>

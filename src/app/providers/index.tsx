@@ -17,6 +17,8 @@ type ProvidersProps = {
 export function Providers({
   children,
 }: ProvidersProps) {
+  console.log("QUERY PROVIDER ACTIVE");
+  console.log("APP PROVIDERS RENDERED");
   return (
     <ErrorBoundary>
       <ThemeProvider>

@@ -1,4 +1,3 @@
-//src\lib\axios\api.ts
 import axios from "axios";
 import { setupInterceptors } from "./interceptors";
 

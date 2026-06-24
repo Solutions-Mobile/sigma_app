@@ -1,4 +1,3 @@
-//src\lib\auth\auth-storage.ts
 import type { LoginResponseDTO } from "@/services/auth/dtos/login-response.dto";
 
 const ACCESS_TOKEN_KEY = "financeirojs-access-token";

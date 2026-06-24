@@ -1,4 +1,3 @@
-//src\lib\axios\interceptors.ts
 import type { AxiosInstance, InternalAxiosRequestConfig } from "axios";
 import { AuthStorage } from "@/lib/auth/auth-storage";
 import { authService } from "@/services/auth/auth-service";
