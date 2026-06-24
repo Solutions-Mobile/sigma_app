@@ -17,9 +17,7 @@ import { ForbiddenPage } from "@/pages/errors/forbidden-page";
 import { NotFoundPage } from "@/pages/errors/not-found-page";
 
 //REMOVER
-//import { EmpresaListPage } from "@/pages/cadastros/empresas/empresa-list-page";
 import { EmpresaListPage } from "@/features/tenants/_remover/empresa-list-page";
-//import { EmpresaCreatePage } from "@/pages/cadastros/empresas/empresa-create-page";
 import { EmpresaCreatePage } from "@/features/tenants/_remover/empresa-create-page";
 
 function getPermission(path: string) {

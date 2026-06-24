@@ -2,6 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { appToast } from "@/lib/toast/toast";
 import { tenantService } from "../services/tenant-service";
 import type { UpdateTenantDTO } from "../types/update-tenant.dto";
+import { tenantKeys } from "./tenant-keys";
 
 type MutationData = {
   id: string;

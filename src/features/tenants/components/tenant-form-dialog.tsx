@@ -5,11 +5,11 @@ import {  Dialog,  DialogContent,  DialogFooter,  DialogHeader,  DialogTitle,} f
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {  tenantFormSchema,  type TenantFormData,} from "@/features/tenants/schemas/tenant.schema";
-import type { TenantDTO } from "../types/tenant.dto";
+import type { Tenant } from "../types/tenant.dto";
 
 type TenantFormDialogProps = {
   open: boolean;
-  tenant: TenantDTO | null;
+  tenant: Tenant | null;
   loading: boolean;
   onClose: () => void;
   onSubmit: (    data: TenantFormData,  ) => Promise<void>;

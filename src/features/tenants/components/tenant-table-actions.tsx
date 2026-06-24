@@ -2,12 +2,12 @@
 import { MoreHorizontal, Pencil, Trash2, } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, } from "@/components/ui/dropdown-menu";
-import type { TenantDTO } from "@/features/tenants/types/tenant.dto";
+import type { Tenant } from "@/features/tenants/types/tenant.dto";
 
 type TenantTableActionsProps = {
-    tenant: TenantDTO;
-    onEdit: (tenant: TenantDTO,) => void;
-    onDelete: (tenant: TenantDTO,) => void;
+    tenant: Tenant;
+    onEdit: (tenant: Tenant,) => void;
+    onDelete: (tenant: Tenant,) => void;
 };
 
 export function TenantTableActions({ tenant, onEdit, onDelete, }: TenantTableActionsProps) {

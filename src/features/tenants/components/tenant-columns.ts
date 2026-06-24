@@ -1,7 +1,7 @@
 import type { ColumnDef } from "@tanstack/react-table";
-import type { TenantDTO } from "../types/tenant.dto";
+import type { Tenant } from "../types/tenant.dto";
 
-export const tenantColumns: ColumnDef<TenantDTO>[] = [
+export const tenantColumns: ColumnDef<Tenant>[] = [
   {
     accessorKey: "companyName",
     header: "Razão Social",

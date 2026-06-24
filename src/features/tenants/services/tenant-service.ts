@@ -1,7 +1,7 @@
-//src\services\empresas\empresa-service.ts
+//src\features\tenants\services\tenant-service.ts
 import { httpClient } from "@/services/http/http-client";
 import type { PaginatedResponse } from "@/types/api/paginated-response";
-import type { TenantDTO } from "../types/tenant.dto";
+import type { Tenant } from "../types/tenant.dto";
 import type { CreateTenantDTO } from "../types/create-tenant.dto";
 import type { UpdateTenantDTO } from "../types/update-tenant.dto";
 
@@ -9,7 +9,7 @@ import type { UpdateTenantDTO } from "../types/update-tenant.dto";
 
 export const tenantService = {
   list: async (params?: { page?: number; limit?: number }) => {
-    const { data } = await httpClient.get<PaginatedResponse<TenantDTO>>(
+    const { data } = await httpClient.get<PaginatedResponse<Tenant>>(
       "/sf/v1/tenants",
       { params }
     );
@@ -17,7 +17,7 @@ export const tenantService = {
   },
 
   findById: async (id: string) => {
-    const { data } = await httpClient.get<TenantDTO>(`/sf/v1/tenants/${id}`);
+    const { data } = await httpClient.get<Tenant>(`/sf/v1/tenants/${id}`);
     return data;
   },
 

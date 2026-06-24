@@ -2,13 +2,7 @@ import { useState, type ReactNode } from "react";
 import { AppCard } from "@/components/app/app-card";
 import { AppPage } from "@/components/app/app-page";
 import { Button } from "@/components/ui/button";
-import {
-  DEFAULT_APP_SETTINGS,
-  getAppSettings,
-  saveAppSettings,
-  type AppSettings,
-  type EmpresaDataSource,
-} from "@/lib/app-settings";
+import {  DEFAULT_APP_SETTINGS,  getAppSettings,  saveAppSettings,  type AppSettings,  type EmpresaDataSource,} from "@/lib/app-settings";
 import { cn } from "@/lib/utils";
 
 const PAGE_SIZE_OPTIONS = [

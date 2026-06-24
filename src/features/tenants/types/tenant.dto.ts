@@ -1,12 +1,3 @@
-export type TenantDTO = {
-  id: string;
-  companyName: string;
-  documentNumber: string;
-  tradingName: string;
-};
-
-
-/*
 export type Tenant = {
   id: string;
   companyName: string;
@@ -17,4 +8,3 @@ export type Tenant = {
   createdAt: string;
   updatedAt: string;
 };
-*/
