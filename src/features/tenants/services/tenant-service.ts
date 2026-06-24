@@ -1,9 +1,7 @@
 //src\features\tenants\services\tenant-service.ts
 import { httpClient } from "@/services/http/http-client";
 import type { PaginatedResponse } from "@/types/api/paginated-response";
-import type { Tenant } from "../types/tenant.dto";
-import type { CreateTenantDTO } from "../types/create-tenant.dto";
-import type { UpdateTenantDTO } from "../types/update-tenant.dto";
+import type { Tenant, CreateTenantDto, UpdateTenantDto } from "../types/tenant.types";
 
 //const BASE_URL = "/sf/v1/tenants";
 
@@ -21,16 +19,16 @@ export const tenantService = {
     return data;
   },
 
-  create: async (payload: CreateTenantDTO) => {
-    const { data } = await httpClient.post<TenantDTO>(
+  create: async (payload: CreateTenantDto) => {
+    const { data } = await httpClient.post<Tenant>(
       "/sf/v1/tenants",
       payload
     );
     return data;
   },
 
-  update: async (id: string, payload: UpdateTenantDTO) => {
-    const { data } = await httpClient.patch<TenantDTO>(
+  update: async (id: string, payload: UpdateTenantDto) => {
+    const { data } = await httpClient.patch<Tenant>(
       `/sf/v1/tenants/${id}`,
       payload
     );

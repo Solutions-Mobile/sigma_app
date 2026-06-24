@@ -2,7 +2,7 @@
 import { MoreHorizontal, Pencil, Trash2, } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, } from "@/components/ui/dropdown-menu";
-import type { Tenant } from "@/features/tenants/types/tenant.dto";
+import type { Tenant } from "../types/tenant.types";
 
 type TenantTableActionsProps = {
     tenant: Tenant;

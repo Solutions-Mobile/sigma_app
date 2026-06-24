@@ -1,5 +1,5 @@
 import type { ColumnDef } from "@tanstack/react-table";
-import type { Tenant } from "../types/tenant.dto";
+import type { Tenant } from "../types/tenant.types";
 
 export const tenantColumns: ColumnDef<Tenant>[] = [
   {
