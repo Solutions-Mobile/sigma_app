@@ -1,7 +1,5 @@
 @import "tailwindcss";
 
-@import "tailwindcss";
-
 :root {
   --background: #ffffff;
   --foreground: #0f172a;
@@ -13,10 +11,14 @@
 
   --primary: #09448d;
   --primary-foreground: #ffffff;
+
+  --sidebar: 		#2a2634;
 }
 
 .dark {
-  --background: #020817;
+  --background: #272930;
+  --background2: #020817;
+
   --foreground: #f8fafc;
 
   --muted: #0f172a;
@@ -24,8 +26,10 @@
 
   --border: #1e293b;
 
-  --primary: #8d5209;
+  --primary: #875d2a;
   --primary-foreground: #ffffff;
+
+  --sidebar: 		#2a2634;
 }
 
 body {
@@ -41,6 +45,10 @@ body {
 
 .bg-background {
   background: var(--background);
+}
+
+.bg-sidebar {
+  background: var(--sidebar);
 }
 
 .text-foreground {

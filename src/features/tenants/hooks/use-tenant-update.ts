@@ -1,8 +1,8 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { appToast } from "@/lib/toast/toast";
 import { tenantService } from "../services/tenant-service";
+import { tenantKeys } from "./tenant-keys";
 import type { UpdateTenantDto } from "../types/tenant.types";
-//import { tenantKeys } from "./tenant-keys";
 
 type MutationData = {
   id: string;
@@ -19,7 +19,7 @@ export function useUpdateTenant() {
       appToast.success("Empresa atualizada com sucesso");
 
       await queryClient.invalidateQueries({
-        queryKey: ["empresas"],
+        queryKey: tenantKeys.all,
       });
     },
 

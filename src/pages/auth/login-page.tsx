@@ -1,58 +1,42 @@
 import { useState } from "react";
-import { Navigate } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useAuth } from "@/contexts/auth/use-auth";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle, } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { AuthFormShell } from "./auth-form-shell";
 import axios from "axios";
 
 const loginSchema = z.object({
-  login: z
-    .string()
-    .min(1, "Informe o login"),
-  password: z
-    .string()
-    .min(1, "Informe a senha"),
+  login: z.string().min(1, "Informe o login"),
+  password: z.string().min(1, "Informe a senha"),
 });
 
-type LoginFormData =
-  z.infer<typeof loginSchema>;
+type LoginFormData = z.infer<typeof loginSchema>;
 
 export function LoginPage() {
-  const {
-    login: executeLogin,
-    authenticated,
-  } = useAuth();
-
-  const [error, setError] =
-    useState("");
-
-  const [loading, setLoading] =
-    useState(false);
-
+  const { login: executeLogin, authenticated, } = useAuth();
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const { register, handleSubmit, formState: { errors }, } = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
   });
 
-  async function onSubmit(
-    data: LoginFormData,
-  ) {
+  async function onSubmit(data: LoginFormData,) {
     try {
       setError("");
       setLoading(true);
 
-      await executeLogin(data.login, data.password,);
-    } catch {
-      //setError("Login ou senha inválidos",);
-      if (axios.isAxiosError(error)) {
-        const message = error.response?.data?.message;
-        setError(message || "Erro ao autenticar",);
+      await executeLogin(data.login, data.password);
+    } catch (err) {
+      if (axios.isAxiosError(err)) {
+        const message = err.response?.data?.message;
+        setError(message || "Erro ao autenticar");
         return;
       }
-      setError("Erro interno ao autenticar",);
+      setError("Erro interno ao autenticar");
     } finally {
       setLoading(false);
     }
@@ -68,55 +52,43 @@ export function LoginPage() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-muted/30">
-      <Card className="w-full max-w-md">
-        <CardHeader>
-          <CardTitle>
-            Financeiro JS
-          </CardTitle>
+    <AuthFormShell
+      title="Bem-vindo"
+      subtitle="Faça login para acessar seu painel financeiro."
+    >
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+        <div>
+          <Input placeholder="Login" {...register("login")} />
+          {errors.login && (
+            <p className="mt-2 text-sm text-destructive">{errors.login.message}</p>
+          )}
+        </div>
 
-          <CardDescription>
-            Informe suas credenciais
-          </CardDescription>
-        </CardHeader>
+        <div>
+          <Input type="password" placeholder="Senha" {...register("password")} />
+          {errors.password && (
+            <p className="mt-2 text-sm text-destructive">{errors.password.message}</p>
+          )}
+        </div>
 
-        <CardContent>
-          <form onSubmit={handleSubmit(onSubmit,)} className="space-y-4"          >
-            <div>
-              <Input placeholder="Login" {...register("login")} />
+        {error && (
+          <p className="text-sm text-destructive">{error}</p>
+        )}
 
-              {errors.login && (
-                <p className="mt-1 text-sm text-destructive">
-                  {
-                    errors.login
-                      .message
-                  }
-                </p>
-              )}
-            </div>
+        <div className="flex flex-wrap items-center justify-between gap-5 text-sm text-slate-500">
+          <Button type="submit" className="w-full" disabled={loading}>
+            {loading ? "Entrando..." : "Acessar conta"}
+          </Button>
 
-            <div>
-              <Input type="password" placeholder="Senha"  {...register("password",)} />
-              {errors.password && (
-                <p className="mt-1 text-sm text-destructive">
-                  {
-                    errors.password
-                      .message
-                  }
-                </p>
-              )}
-            </div>
+          <Link to="/login/forgot-password" className="font-semibold text-slate-600 hover:text-slate-800">
+            Esqueci minha senha
+          </Link>
 
-            {error && (
-              <p className="text-sm text-destructive">                {error}              </p>
-            )}
-
-            <Button type="submit" className="w-full" disabled={loading}            >
-              {loading ? "Entrando..." : "Entrar"}
-            </Button>
-          </form>
-        </CardContent>
-      </Card>
-    </div>
+          <Link to="/login/register" className="font-semibold text-slate-600 hover:text-slate-800">
+            Cadastrar uma conta
+          </Link>
+        </div>
+      </form>
+    </AuthFormShell>
   );
 }

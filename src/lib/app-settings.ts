@@ -1,16 +1,21 @@
-export type EmpresaDataSource =
-  | "database"
-  | "mock";
+export type DataSourceKind = "database" | "mock";
+
+export type DataSourceConfig = {
+  tenants: DataSourceKind;
+  [resource: string]: DataSourceKind;
+};
 
 export type AppSettings = {
-  empresaDataSource: EmpresaDataSource;
+  dataSources: DataSourceConfig;
   pageSize: number;
 };
 
 const STORAGE_KEY = "sigma-app:settings";
 
 export const DEFAULT_APP_SETTINGS: AppSettings = {
-  empresaDataSource: "database",
+  dataSources: {
+    tenants: "database",
+  },
   pageSize: 10,
 };
 
@@ -30,7 +35,9 @@ export function getAppSettings(): AppSettings {
   try {
     const parsed = JSON.parse(
       stored,
-    ) as Partial<AppSettings>;
+    ) as Partial<AppSettings> & {
+      empresaDataSource?: DataSourceKind;
+    };
 
     return normalizeAppSettings(parsed);
   } catch {
@@ -49,18 +56,30 @@ export function saveAppSettings(
   );
 }
 
+export function getDataSource(
+  settings: AppSettings,
+  resource: string,
+): DataSourceKind {
+  return settings.dataSources[resource] ?? "database";
+}
+
 function normalizeAppSettings(
-  settings: Partial<AppSettings>,
+  settings: Partial<AppSettings> & {
+    empresaDataSource?: DataSourceKind;
+  },
 ): AppSettings {
   const pageSize = Number(
     settings.pageSize,
   );
 
   return {
-    empresaDataSource:
-      settings.empresaDataSource === "mock"
-        ? "mock"
-        : "database",
+    dataSources: {
+      tenants:
+        settings.empresaDataSource === "mock"
+          ? "mock"
+          : settings.dataSources?.tenants ?? "database",
+      ...settings.dataSources,
+    },
     pageSize: [10, 25, 50, 100].includes(
       pageSize,
     )

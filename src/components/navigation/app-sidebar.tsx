@@ -80,11 +80,25 @@ export function AppSidebar() {
 
 
   return (
-    <aside className={cn("flex h-full flex-col border-r bg-background transition-all duration-300", collapsed ? "w-20" : "w-64")}    >
-      <div className="flex h-14 items-center justify-between border-b px-4">
-        {!collapsed && (
-          <span className="font-semibold"> Sigma-Finance </span>
-        )}
+    // <aside className={cn("flex h-full flex-col border-r bg-background transition-all duration-300", collapsed ? "w-20" : "w-64")}    >
+    <aside className={cn("flex h-full flex-col border-r bg-sidebar transition-all duration-300 text-white", collapsed ? "w-20" : "w-64")} >
+      <div className="flex h-18 items-center justify-between border-b px-4">
+        <div className="flex items-center gap-2">
+          {!collapsed && (
+            <img
+              src="/pwa-192x192.png"
+              alt="Sigma"
+              className="h-8 w-8 object-contain bg-slate-50 rounded"
+            />
+          )}
+
+
+          {!collapsed && (
+            <span className="font-semibold text-lg animate-fade-in">
+              Finance
+            </span>
+          )}
+        </div>
 
         <button
           type="button"
@@ -92,9 +106,9 @@ export function AppSidebar() {
           className="rounded-md p-2 hover:bg-muted"
         >
           {collapsed ? (
-            <PanelLeftOpen className="h-4 w-4" />
+            <PanelLeftOpen className="h-6 w-6" />
           ) : (
-            <PanelLeftClose className="h-4 w-4" />
+            <PanelLeftClose className="h-6 w-6" />
           )}
         </button>
       </div>
@@ -123,15 +137,15 @@ export function AppSidebar() {
         })}
       </nav>
 
-    {/* Rodapé da Sidebar (Seus botões fixados embaixo) */}
-    <div className={cn("mt-auto flex border-t p-3", collapsed ? "flex-col items-center gap-2" : "items-center justify-center gap-2")}>
-      <Button variant="outline" size="icon" onClick={handleToggleTheme}>
-        {theme === "dark" ? (<Sun className="h-4 w-4" />) : (<Moon className="h-4 w-4" />)}
-      </Button>
-      <Button variant="outline" size="icon" onClick={logout}>
-        <LogOut className="h-4 w-4" />
-      </Button>
-    </div>
+      {/* Rodapé da Sidebar (Seus botões fixados embaixo) */}
+      <div className={cn("mt-auto flex border-t p-3", collapsed ? "flex-col items-center gap-2" : "items-center justify-around gap-2")}>
+        <Button className="bg-sidebar" size="icon" onClick={handleToggleTheme}>
+          {theme === "dark" ? (<Sun className="h-4 w-4" />) : (<Moon className="h-4 w-4" />)}
+        </Button>
+        <Button className="bg-sidebar" size="icon" onClick={logout}>
+          <LogOut className="h-4 w-4" />
+        </Button>
+      </div>
 
     </aside>
   );

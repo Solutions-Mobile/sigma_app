@@ -1,34 +1,32 @@
-import { useState, type ReactNode } from "react";
+import { type ReactNode } from "react";
 import { AppCard } from "@/components/app/app-card";
 import { AppPage } from "@/components/app/app-page";
 import { Button } from "@/components/ui/button";
-import {  DEFAULT_APP_SETTINGS,  getAppSettings,  saveAppSettings,  type AppSettings,  type EmpresaDataSource,} from "@/lib/app-settings";
+import { DEFAULT_APP_SETTINGS, type DataSourceKind } from "@/lib/app-settings";
+import { useAppSettings } from "@/lib/app-settings-context";
 import { cn } from "@/lib/utils";
 
 const PAGE_SIZE_OPTIONS = [
   10,
-  25,
+  20,
+  30,
+  40,
   50,
   100,
 ];
 
 export function ConfiguracoesPage() {
-  const [settings, setSettings] =
-    useState<AppSettings>(getAppSettings);
-
-  function updateSettings(
-    nextSettings: AppSettings,
-  ) {
-    setSettings(nextSettings);
-    saveAppSettings(nextSettings);
-  }
+  const { settings, updateSettings } = useAppSettings();
 
   function handleDataSourceChange(
-    empresaDataSource: EmpresaDataSource,
+    dataSource: DataSourceKind,
   ) {
     updateSettings({
       ...settings,
-      empresaDataSource,
+      dataSources: {
+        ...settings.dataSources,
+        tenants: dataSource,
+      },
     });
   }
 
@@ -69,7 +67,7 @@ export function ConfiguracoesPage() {
               <div className="flex flex-wrap gap-2">
                 <SegmentButton
                   active={
-                    settings.empresaDataSource ===
+                    settings.dataSources.tenants ===
                     "database"
                   }
                   onClick={() =>
@@ -83,7 +81,7 @@ export function ConfiguracoesPage() {
 
                 <SegmentButton
                   active={
-                    settings.empresaDataSource ===
+                    settings.dataSources.tenants ===
                     "mock"
                   }
                   onClick={() =>

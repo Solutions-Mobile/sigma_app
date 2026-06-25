@@ -9,17 +9,8 @@ export function AppHeader() {
   const { title, breadcrumbs } = usePageMetadata();
   const { user } = useAuth();
 
-  /*
-  // MARCOS - 19/06/2026 - MOVIDO PARA "SideBar" 
-  const { user, logout } = useAuth();
-  const { theme, setTheme } = useTheme();
-   function handleToggleTheme() {
-     setTheme(theme === "dark" ? "light" : "dark");
-   }
-  */
-
   return (
-    <header className="border-b bg-background px-6 py-4">
+    <header className="border-b bg-background px-6 py-2">
       <div className="flex items-center justify-between gap-4">
         <div className="space-y-1">
           <h1 className="text-2xl font-semibold">
@@ -41,20 +32,6 @@ export function AppHeader() {
               {user?.profile}
             </div>
           </div>
-
-          {/* // MARCOS - 19/06/2026 - MOVIDO PARA "SideBar" 
-          <Button variant="outline" size="icon" onClick={handleToggleTheme}>
-            {theme === "dark" ? (
-              <Sun className="h-4 w-4" />
-            ) : (
-              <Moon className="h-4 w-4" />
-            )}
-          </Button> 
-
-          <Button variant="outline" size="icon" onClick={logout}          >
-            <LogOut className="h-4 w-4" />
-          </Button>
-          */}
         </div>
       </div>
     </header>

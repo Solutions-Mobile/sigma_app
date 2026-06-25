@@ -5,6 +5,9 @@ import { ProtectedRoute } from "@/app/router/protected-route";
 import { PublicRoute } from "@/app/router/public-route";
 import { routeConfig } from "./route-config";
 import { LoginPage } from "@/pages/auth/login-page";
+import { RegisterPage } from "@/pages/auth/register-page";
+import { ForgotPasswordPage } from "@/pages/auth/forgot-password-page";
+import { ChangePasswordPage } from "@/pages/auth/change-password-page";
 import { DashboardPage } from "@/pages/dashboard/dashboard-page";
 import { PerfisPage } from "@/pages/cadastros/perfis-page";
 import { UsuariosPage } from "@/pages/cadastros/usuarios-page";
@@ -36,6 +39,9 @@ export function Router() {
           }
         >
           <Route index element={<LoginPage />} />
+          <Route path="register" element={<RegisterPage />} />
+          <Route path="forgot-password" element={<ForgotPasswordPage />} />
+          <Route path="change-password" element={<ChangePasswordPage />} />
         </Route>
 
         <Route

@@ -8,6 +8,7 @@ import "@/services/http/http-interceptors";
 import { ThemeProvider } from "@/components/theme/theme-provider";
 import { AuthProvider } from "@/contexts/auth/auth-provider";
 import { QueryProvider } from "@/lib/react-query/query-provider";
+import { AppSettingsProvider } from "@/lib/app-settings-context";
 
 ReactDOM.createRoot(
   document.getElementById(
@@ -15,12 +16,14 @@ ReactDOM.createRoot(
   ) as HTMLElement,
 ).render(
   <React.StrictMode>
-    <ThemeProvider>
-      <QueryProvider>
-        <AuthProvider>
-          <App />
-        </AuthProvider>
-      </QueryProvider>
-    </ThemeProvider>
+      <ThemeProvider>
+        <QueryProvider>
+          <AppSettingsProvider>
+            <AuthProvider>
+              <App />
+            </AuthProvider>
+          </AppSettingsProvider>
+        </QueryProvider>
+      </ThemeProvider>
   </React.StrictMode>,
 );

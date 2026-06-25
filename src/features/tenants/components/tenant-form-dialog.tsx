@@ -11,14 +11,16 @@ type TenantFormDialogProps = {
   open: boolean;
   tenant: Tenant | null;
   loading: boolean;
+  title?: string;
   onClose: () => void;
-  onSubmit: (    data: TenantFormData,  ) => Promise<void>;
+  onSubmit: (data: TenantFormData) => Promise<void>;
 };
 
 export function TenantFormDialog({
   open,
   tenant,
   loading,
+  title,
   onClose,
   onSubmit,
 }: TenantFormDialogProps) {
@@ -77,7 +79,7 @@ export function TenantFormDialog({
       <DialogContent>
         <DialogHeader>
           <DialogTitle>
-            Editar tenant
+            {title ?? (tenant ? "Editar tenant" : "Novo tenant")}
           </DialogTitle>
         </DialogHeader>
 
