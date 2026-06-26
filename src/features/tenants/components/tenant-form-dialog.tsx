@@ -1,42 +1,45 @@
 import { useEffect } from "react";
-import { zodResolver } from "@hookform/resolvers/zod";
-import {  useForm,} from "react-hook-form";
-import {  Dialog,  DialogContent,  DialogFooter,  DialogHeader,  DialogTitle,} from "@/components/ui/dialog";
+import { useForm, } from "react-hook-form";
+import { zodResolver, } from "@hookform/resolvers/zod";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import {  tenantFormSchema,  type TenantFormData,} from "@/features/tenants/schemas/tenant.schema";
-import type { Tenant } from "../types/tenant.types";
+import { tenantSchema, type TenantFormData, } from "../schemas/tenant.schema";
+import type { Tenant, } from "../types/tenant.types";
 
-type TenantFormDialogProps = {
+type Props = {
   open: boolean;
-  tenant: Tenant | null;
-  loading: boolean;
-  title?: string;
+
+  tenant?: Tenant | null;
+
+  title: string;
+
+  loading?: boolean;
+
   onClose: () => void;
-  onSubmit: (data: TenantFormData) => Promise<void>;
+
+  onSubmit: (
+    data: TenantFormData,
+  ) => Promise<void>;
 };
 
 export function TenantFormDialog({
   open,
   tenant,
-  loading,
   title,
+  loading,
   onClose,
   onSubmit,
-}: TenantFormDialogProps) {
-  const form =
-    useForm<TenantFormData>({
-      resolver:
-        zodResolver(
-          tenantFormSchema,
-        ),
-
-      defaultValues: {
-        companyName: "",
-        tradingName: "",
-        documentNumber: "",
-      },
-    });
+}: Props) {
+  const form = useForm<TenantFormData>({
+    resolver: zodResolver(tenantSchema,),
+    defaultValues: {
+      companyName: "",
+      tradingName: "",
+      documentNumber: "",
+      isActive: true,
+    },
+  });
 
   useEffect(() => {
     if (!tenant) {
@@ -44,6 +47,7 @@ export function TenantFormDialog({
         companyName: "",
         tradingName: "",
         documentNumber: "",
+        isActive: true,
       });
 
       return;
@@ -58,14 +62,11 @@ export function TenantFormDialog({
 
       documentNumber:
         tenant.documentNumber,
+
+      isActive:
+        tenant.isActive,
     });
   }, [tenant, form]);
-
-  async function handleSubmit(
-    data: TenantFormData,
-  ) {
-    await onSubmit(data);
-  }
 
   return (
     <Dialog
@@ -79,17 +80,19 @@ export function TenantFormDialog({
       <DialogContent>
         <DialogHeader>
           <DialogTitle>
-            {title ?? (tenant ? "Editar tenant" : "Novo tenant")}
+            {title}
           </DialogTitle>
         </DialogHeader>
 
         <form
-          onSubmit={form.handleSubmit(
-            handleSubmit,
-          )}
           className="space-y-4"
+          onSubmit={form.handleSubmit(
+            async (data) => {
+              await onSubmit(data);
+            },
+          )}
         >
-          <div className="space-y-1">
+          <div className="space-y-2">
             <Input
               placeholder="Razão social"
               {...form.register(
@@ -97,19 +100,16 @@ export function TenantFormDialog({
               )}
             />
 
-            {form.formState.errors
-              .companyName && (
-              <p className="text-sm text-red-500">
-                {
-                  form.formState.errors
-                    .companyName
-                    .message
-                }
-              </p>
-            )}
+            <p className="text-sm text-red-500">
+              {
+                form.formState.errors
+                  .companyName
+                  ?.message
+              }
+            </p>
           </div>
 
-          <div className="space-y-1">
+          <div className="space-y-2">
             <Input
               placeholder="Nome fantasia"
               {...form.register(
@@ -117,19 +117,16 @@ export function TenantFormDialog({
               )}
             />
 
-            {form.formState.errors
-              .tradingName && (
-              <p className="text-sm text-red-500">
-                {
-                  form.formState.errors
-                    .tradingName
-                    .message
-                }
-              </p>
-            )}
+            <p className="text-sm text-red-500">
+              {
+                form.formState.errors
+                  .tradingName
+                  ?.message
+              }
+            </p>
           </div>
 
-          <div className="space-y-1">
+          <div className="space-y-2">
             <Input
               placeholder="Documento"
               {...form.register(
@@ -137,24 +134,20 @@ export function TenantFormDialog({
               )}
             />
 
-            {form.formState.errors
-              .documentNumber && (
-              <p className="text-sm text-red-500">
-                {
-                  form.formState.errors
-                    .documentNumber
-                    .message
-                }
-              </p>
-            )}
+            <p className="text-sm text-red-500">
+              {
+                form.formState.errors
+                  .documentNumber
+                  ?.message
+              }
+            </p>
           </div>
 
-          <DialogFooter>
+          <div className="flex justify-end gap-2">
             <Button
               type="button"
               variant="outline"
               onClick={onClose}
-              disabled={loading}
             >
               Cancelar
             </Button>
@@ -163,11 +156,9 @@ export function TenantFormDialog({
               type="submit"
               disabled={loading}
             >
-              {loading
-                ? "Salvando..."
-                : "Salvar"}
+              Salvar
             </Button>
-          </DialogFooter>
+          </div>
         </form>
       </DialogContent>
     </Dialog>

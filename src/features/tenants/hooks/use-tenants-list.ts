@@ -7,6 +7,7 @@ type UseTenantsListParams = {
   page: number;
   limit: number;
   search?: string;
+  isActive?: boolean;
 };
 
 export function useTenantsList(params: UseTenantsListParams) {

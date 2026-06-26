@@ -10,17 +10,18 @@ import type { Tenant } from "../types/tenant.types";
 type TenantTableProps = {
   page: number;
   searchTerm?: string;
+  isActive?: boolean;
   onPageChange: (page: number) => void;
   onEdit?: (tenant: Tenant) => void;
   onDelete?: (tenant: Tenant) => void;
 };
 
-export function TenantTable({ page, searchTerm, onPageChange, onEdit, onDelete, }: TenantTableProps) {
+export function TenantTable({ page, searchTerm, isActive, onPageChange, onEdit, onDelete, }: TenantTableProps) {
   const { settings } = useAppSettings();
   const limit = settings.pageSize;
 
   //const { data, isLoading } = useTenantsList({ page, limit, });
-  const { data, isLoading } = useTenantsList({ page, limit, search:searchTerm });
+  const { data, isLoading } = useTenantsList({ page, limit, search: searchTerm, isActive });
   const rows = Array.isArray(data)
     ? data
     : data?.data ?? [];

@@ -11,9 +11,9 @@ import { useCreateTenant } from "../hooks/use-tenant-create";
 import { useTenantDelete } from "../hooks/use-tenant-delete";
 import { useTenantUpdate } from "../hooks/use-tenant-update";
 import { useTenantById } from "../hooks/use-tenant-by-id";
-
 import type { Tenant } from "../types/tenant.types";
 import type { TenantFormData } from "../schemas/tenant.schema";
+import { Checkbox } from "@/components/ui/checkbox";
 
 export default function TenantsPage() {
   const navigate = useNavigate();
@@ -25,6 +25,7 @@ export default function TenantsPage() {
   const isCreateRoute = pathname.endsWith("/nova");
   const isEditRoute = pathname.endsWith("/editar");
   const searchTerm = searchParams.get("search") ?? "";
+  const isActive = searchParams.get("isActive") !== "false";
   const page = Math.max(1, Number(searchParams.get("page") ?? "1"),);
   const [inputSearch, setInputSearch] = useState(searchTerm);
   const [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false);
@@ -47,6 +48,7 @@ export default function TenantsPage() {
   function updateQueryParams(params: {
     page?: number;
     search?: string;
+    isActive?: boolean;
   }) {
     const next = new URLSearchParams(searchParams);
 
@@ -63,6 +65,12 @@ export default function TenantsPage() {
       );
     } else {
       next.delete("search");
+    }
+
+    if (params.isActive === false) {
+      next.set("isActive", "false");
+    } else {
+      next.delete("isActive");
     }
 
     setSearchParams(next);
@@ -107,6 +115,20 @@ export default function TenantsPage() {
     setConfirmDeleteOpen(true);
   }
 
+  function handleAfterDelete() {
+    navigate({
+      pathname: "/cadastros/empresas",
+      search: searchParams.toString(),
+    });
+
+    if (page > 1) {
+      updateQueryParams({
+        page: page - 1,
+        search: searchTerm,
+      });
+    }
+  }
+
   async function handleSubmitForm(
     data: TenantFormData,
   ) {
@@ -131,14 +153,10 @@ export default function TenantsPage() {
       return;
     }
 
-    try {
-      await deleteTenant.mutateAsync(
-        tenantToDelete.id,
-      );
-    } finally {
-      setConfirmDeleteOpen(false);
-      setTenantToDelete(null);
-    }
+    await deleteTenant.mutateAsync(tenantToDelete.id,);
+    setConfirmDeleteOpen(false);
+    setTenantToDelete(null);
+    handleAfterDelete();
   }
 
   const formTitle = useMemo(() => {
@@ -153,7 +171,7 @@ export default function TenantsPage() {
     <AppPage
       toolbar={
         <PageToolbar>
-          <div className="min-w-0 flex gap-2">
+          <div className="flex items-center gap-2">
             <DataTableSearch
               value={inputSearch}
               placeholder="Pesquisar... (Enter)"
@@ -176,6 +194,24 @@ export default function TenantsPage() {
             <Button onClick={handleApplySearch}>
               Buscar
             </Button>
+            <div className="flex items-center gap-2 px-2">
+              <Checkbox
+                checked={!isActive}
+                onCheckedChange={(checked) => {
+                  updateQueryParams({
+                    page: 1,
+
+                    search: searchTerm,
+
+                    isActive: checked ? false : true,
+                  });
+                }}
+              />
+              <span className="text-sm">
+                Mostrar inativos
+              </span>
+            </div>
+
           </div>
 
           <Button onClick={handleOpenCreate}>
@@ -187,6 +223,7 @@ export default function TenantsPage() {
       <TenantTable
         page={page}
         searchTerm={searchTerm}
+        isActive={isActive}
         onPageChange={handlePageChange}
         onEdit={handleEdit}
         onDelete={handleDelete}

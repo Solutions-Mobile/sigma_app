@@ -6,7 +6,7 @@ import { getAppSettings, getDataSource } from "@/lib/app-settings";
 import { getMockTenants } from "./tenant-mock-data";
 
 export const tenantService = {
-  list: async (params?: { page?: number; limit?: number; search?: string; }) => {
+  list: async (params?: { page?: number; limit?: number; search?: string; isActive?: boolean }) => {
     const settings = getAppSettings();
     const dataSource = getDataSource(settings, "tenants");
 
@@ -30,8 +30,8 @@ export const tenantService = {
   },
 
   create: async (payload: CreateTenantDto) => {
-    const { data } = await httpClient.post<Tenant>("/tenants", payload);
-    return data;
+    const response = await httpClient.post("/tenants", payload);
+    return response.data;
   },
 
   update: async (id: string, payload: UpdateTenantDto) => {
