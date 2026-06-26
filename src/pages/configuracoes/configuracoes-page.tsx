@@ -7,6 +7,8 @@ import { useAppSettings } from "@/lib/app-settings-context";
 import { cn } from "@/lib/utils";
 
 const PAGE_SIZE_OPTIONS = [
+  2,
+  5,
   10,
   20,
   30,

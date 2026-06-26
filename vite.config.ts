@@ -5,11 +5,19 @@ import tailwindcss from "@tailwindcss/vite";
 import { VitePWA } from "vite-plugin-pwa";
 
 export default defineConfig({
- server: {
-    host: '0.0.0.0', // Permite que o servidor seja acessível na rede local
-    port: 5173       // (Opcional) Garante que a porta será a 5173
+  server: {
+    host: "0.0.0.0", // Permite que o servidor seja acessível na rede local
+    port: 5173, // (Opcional) Garante que a porta será a 5173
+
+    watch: {
+      ignored: [
+        "**/sandbox/**", 
+        "**/docs/**", 
+        "**/__docs/**", 
+        "**/_obsoletos/**"],
+    },
   },
-    plugins: [
+  plugins: [
     react(),
     tailwindcss(),
     tsconfigPaths(),
@@ -17,9 +25,7 @@ export default defineConfig({
     VitePWA({
       registerType: "autoUpdate",
 
-      includeAssets: [
-        "favicon.ico",
-      ],
+      includeAssets: ["favicon.ico"],
 
       manifest: {
         name: "SigmaApp",

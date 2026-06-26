@@ -3,12 +3,9 @@ import { tenantService } from "../services/tenant-service";
 import { tenantKeys } from "./tenant-keys";
 import { useAppSettings } from "@/lib/app-settings-context";
 
-export function useTenantsList(params: { page: number; limit: number }) {
-  console.log("USE TENANTS LIST PARAMS:", params);
-  console.log("HOOK EXECUTED");
-
+//export function useTenantsList(params: { page: number; limit: number }) {
+export function useTenantsList(params: { page?: number; limit?: number; search?: string }) {
   const { settings } = useAppSettings();
-
   const dataSource = settings.dataSources.tenants;
 
   return useQuery({
@@ -16,5 +13,3 @@ export function useTenantsList(params: { page: number; limit: number }) {
     queryFn: () => tenantService.list(params),
   });
 }
-
-console.log("HOOK CALLED");

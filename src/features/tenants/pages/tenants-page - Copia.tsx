@@ -1,83 +1,28 @@
-import { useMemo, useState } from "react";
-import { useSearchParams } from "react-router-dom";
-
+/*
+import { useState } from "react";
 import { AppPage } from "@/components/app/app-page";
 import { PageToolbar } from "@/components/app/page-toolbar";
 import { Button } from "@/components/ui/button";
 import { ConfirmDialog } from "@/components/dialogs/confirm-dialog";
-import { DataTableSearch } from "@/components/data-table/data-table-search";
-
 import { TenantFormDialog } from "../components/tenant-form-dialog";
 import { TenantTable } from "../components/tenant-table";
-
+import { DataTableSearch } from "@/components/data-table/data-table-search";
 import { useCreateTenant } from "../hooks/use-tenant-create";
 import { useTenantDelete } from "../hooks/use-tenant-delete";
 import { useUpdateTenant } from "../hooks/use-tenant-update";
-
 import type { Tenant } from "../types/tenant.types";
 import type { TenantFormData } from "../schemas/tenant.schema";
 
 export default function TenantsPage() {
-  const [searchParams, setSearchParams] = useSearchParams();
-
   const [formOpen, setFormOpen] = useState(false);
   const [selectedTenant, setSelectedTenant] = useState<Tenant | null>(null);
-
   const [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false);
   const [tenantToDelete, setTenantToDelete] = useState<Tenant | null>(null);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const createTenant = useCreateTenant();
   const updateTenant = useUpdateTenant();
   const deleteTenant = useTenantDelete();
-
-  const page = useMemo(() => {
-    const value = Number(searchParams.get("page") ?? "1");
-
-    if (Number.isNaN(value) || value < 1) {
-      return 1;
-    }
-
-    return value;
-  }, [searchParams]);
-
-  const searchTerm = useMemo(() => {
-    return searchParams.get("search") ?? "";
-  }, [searchParams]);
-
-  function updateQueryParams(params: {
-    page?: number;
-    search?: string;
-  }) {
-    const nextParams = new URLSearchParams(searchParams);
-
-    if (params.page && params.page > 1) {
-      nextParams.set("page", String(params.page));
-    } else {
-      nextParams.delete("page");
-    }
-
-    if (params.search?.trim()) {
-      nextParams.set("search", params.search.trim());
-    } else {
-      nextParams.delete("search");
-    }
-
-    setSearchParams(nextParams);
-  }
-
-  function handlePageChange(nextPage: number) {
-    updateQueryParams({
-      page: nextPage,
-      search: searchTerm,
-    });
-  }
-
-  function handleSearchChange(value: string) {
-    updateQueryParams({
-      page: 1,  /*Quando houve um "search", sempre inicializa "page" */
-      search: value,
-    });
-  }
 
   function handleOpenCreate() {
     setSelectedTenant(null);
@@ -112,8 +57,12 @@ export default function TenantsPage() {
 
       handleCloseForm();
     } catch {
-      //
+      // Mutation errors are handled by hooks with toast notifications.
     }
+  }
+
+  function handleSearchChange(value: string) {
+    setSearchTerm(value);
   }
 
   async function handleConfirmDelete() {
@@ -154,18 +103,16 @@ export default function TenantsPage() {
       }
     >
       <TenantTable
-        page={page}
-        searchTerm={searchTerm}
-        onPageChange={handlePageChange}
         onEdit={handleEdit}
         onDelete={handleDelete}
+        searchTerm={searchTerm}
       />
 
       <TenantFormDialog
         open={formOpen}
         tenant={selectedTenant}
         title={selectedTenant ? "Editar tenant" : "Novo tenant"}
-        loading={createTenant.isPending || updateTenant.isPending}
+        loading={createTenant.isLoading || updateTenant.isLoading}
         onClose={handleCloseForm}
         onSubmit={handleSubmitForm}
       />
@@ -176,10 +123,11 @@ export default function TenantsPage() {
         description="Deseja realmente excluir este tenant? Esta ação não pode ser desfeita."
         confirmLabel="Excluir"
         cancelLabel="Cancelar"
-        loading={deleteTenant.isPending}
+        loading={deleteTenant.isLoading}
         onConfirm={handleConfirmDelete}
         onCancel={handleCancelDelete}
       />
     </AppPage>
   );
 }
+*/

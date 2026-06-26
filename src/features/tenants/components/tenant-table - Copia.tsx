@@ -1,38 +1,29 @@
-import { useMemo } from "react";
+/*
+import { useMemo, useState } from "react";
 import { DataTable } from "@/components/data-table/data-table";
 import { DataTablePagination } from "@/components/data-table/data-table-pagination";
 import { TenantTableActions } from "./tenant-table-actions";
-import { tenantColumns } from "./tenant-columns";
 import { useTenantsList } from "../hooks/use-tenants-list";
+import { tenantColumns } from "./tenant-columns";
 import { useAppSettings } from "@/lib/app-settings-context";
 import type { Tenant } from "../types/tenant.types";
 
 type TenantTableProps = {
-  page: number;
-  searchTerm?: string;
-  onPageChange: (page: number) => void;
   onEdit?: (tenant: Tenant) => void;
   onDelete?: (tenant: Tenant) => void;
+  searchTerm?: string;
 };
 
-export function TenantTable({ page, searchTerm, onPageChange, onEdit, onDelete, }: TenantTableProps) {
+export function TenantTable({ onEdit, onDelete, searchTerm }: TenantTableProps) {
   const { settings } = useAppSettings();
+  const [page, setPage] = useState(1);
   const limit = settings.pageSize;
-  const search = searchTerm;
 
-  //const { data, isLoading } = useTenantsList({ page, limit, });
-  const { data, isLoading } = useTenantsList({ page, limit, search, });
-  const rows = Array.isArray(data)
-    ? data
-    : data?.data ?? [];
+  const { data, isLoading } = useTenantsList({ page, limit });
 
-  const totalRecords = Array.isArray(data)
-    ? rows.length
-    : data?.totalRecords ?? 0;
-
-  const totalPages = Array.isArray(data)
-    ? 1
-    : data?.totalPages ?? 1;
+  const rows = Array.isArray(data) ? data : data?.data ?? [];
+  const totalRecords = Array.isArray(data) ? rows.length : data?.totalRecords ?? 0;
+  const totalPages = Array.isArray(data) ? 1 : data?.totalPages ?? 1;
 
   const columns = useMemo(() => {
     const baseColumns = tenantColumns;
@@ -58,19 +49,19 @@ export function TenantTable({ page, searchTerm, onPageChange, onEdit, onDelete, 
     ];
   }, [onEdit, onDelete]);
 
+  // Filtro local por termo de busca
   const filteredRows = useMemo(() => {
-    if (!searchTerm) {
-      return rows;
-    }
-
-    const normalized = searchTerm.toLowerCase();
-
+    if (!searchTerm) return rows;
     return rows.filter((tenant) =>
-      tenant.companyName.toLowerCase().includes(normalized) ||
-      tenant.tradingName.toLowerCase().includes(normalized) ||
-      tenant.documentNumber.toLowerCase().includes(normalized)
+      tenant.companyName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      tenant.tradingName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      tenant.documentNumber.toLowerCase().includes(searchTerm.toLowerCase())
     );
   }, [rows, searchTerm]);
+
+  function handlePageChange(newPage: number) {
+    setPage(newPage);
+  }
 
   return (
     <div className="space-y-4">
@@ -79,7 +70,6 @@ export function TenantTable({ page, searchTerm, onPageChange, onEdit, onDelete, 
         data={filteredRows}
         loading={isLoading}
       />
-
       {!isLoading && filteredRows.length > 0 && (
         <DataTablePagination
           page={page}
@@ -87,9 +77,10 @@ export function TenantTable({ page, searchTerm, onPageChange, onEdit, onDelete, 
           totalPages={totalPages}
           totalRecords={totalRecords}
           disabled={isLoading}
-          onPageChange={onPageChange}
+          onPageChange={handlePageChange}
         />
       )}
     </div>
   );
 }
+*/

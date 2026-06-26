@@ -11,5 +11,19 @@
     "paths": {
       "@/*": ["./src/*"]
     }
-  }
+  },
+    "exclude": [
+    "node_modules",
+    "dist",
+    "build",
+    "coverage",
+    "temp",
+    "tmp",
+    "docs",
+    "scripts",
+    "backup",
+    "sandbox",
+    "__docs",
+    "_obsoletos"
+  ]
 }

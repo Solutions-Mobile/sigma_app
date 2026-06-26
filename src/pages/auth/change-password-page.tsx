@@ -28,7 +28,8 @@ export function ChangePasswordPage() {
     resolver: zodResolver(changePasswordSchema),
   });
 
-  function onSubmit(data: ChangePasswordFormData) {
+  //function onSubmit(data: ChangePasswordFormData) {
+  function onSubmit() {
     setSuccess("Senha alterada com sucesso. Use a nova senha para fazer login.");
   }
 
