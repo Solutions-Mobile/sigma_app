@@ -14,7 +14,7 @@ export function TenantTableActions({ tenant, onEdit, onDelete, }: TenantTableAct
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
-                <Button type="button" variant="ghost" size="icon">
+                <Button variant="outline" size="icon" onClick={() => onEdit(tenant)}>
                     <MoreHorizontal className="h-4 w-4" />
                 </Button>
             </DropdownMenuTrigger>

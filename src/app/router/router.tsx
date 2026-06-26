@@ -83,7 +83,7 @@ export function Router() {
                   "/cadastros/empresas"
                 )}
               >
-                <TenantsPage  />
+                <TenantsPage />
               </ProtectedRoute>
             }
           />
@@ -92,25 +92,29 @@ export function Router() {
           <Route
             path="cadastros/empresas/nova"
             element={
-              <ProtectedRoute>
-                <TenantsPage  />
+              <ProtectedRoute
+                permission={getPermission(
+                  "/cadastros/empresas"
+                )}
+              >
+                <TenantsPage />
               </ProtectedRoute>
             }
           />
 
           <Route
-            path="cadastros/empresas/:id"
+            path="cadastros/empresas/:id/editar"
             element={
               <ProtectedRoute
                 permission={getPermission(
                   "/cadastros/empresas"
                 )}
               >
-                <TenantsPage  />
+                <TenantsPage />
               </ProtectedRoute>
             }
           />
-
+          
           <Route
             path="cadastros/usuarios"
             element={

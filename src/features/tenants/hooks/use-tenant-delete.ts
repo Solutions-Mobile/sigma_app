@@ -3,12 +3,21 @@ import { tenantService } from "../services/tenant-service";
 import { tenantKeys } from "./tenant-keys";
 
 export function useTenantDelete() {
-  const qc = useQueryClient();
+  const queryClient = useQueryClient();
 
-  return useMutation({
+  return useMutation<{ message: string }, Error, string>({
     mutationFn: tenantService.remove,
-    onSuccess: () => {
-      qc.invalidateQueries({ queryKey: tenantKeys.all });
+
+    onSuccess: async (_, deletedId) => {
+      await Promise.all([
+        queryClient.invalidateQueries({
+          queryKey: tenantKeys.lists(),
+        }),
+
+        queryClient.removeQueries({
+          queryKey: tenantKeys.detail(deletedId),
+        }),
+      ]);
     },
   });
 }

@@ -18,10 +18,9 @@ type TenantTableProps = {
 export function TenantTable({ page, searchTerm, onPageChange, onEdit, onDelete, }: TenantTableProps) {
   const { settings } = useAppSettings();
   const limit = settings.pageSize;
-  const search = searchTerm;
 
   //const { data, isLoading } = useTenantsList({ page, limit, });
-  const { data, isLoading } = useTenantsList({ page, limit, search, });
+  const { data, isLoading } = useTenantsList({ page, limit, search:searchTerm });
   const rows = Array.isArray(data)
     ? data
     : data?.data ?? [];
@@ -58,6 +57,7 @@ export function TenantTable({ page, searchTerm, onPageChange, onEdit, onDelete, 
     ];
   }, [onEdit, onDelete]);
 
+  /*
   const filteredRows = useMemo(() => {
     if (!searchTerm) {
       return rows;
@@ -71,16 +71,17 @@ export function TenantTable({ page, searchTerm, onPageChange, onEdit, onDelete, 
       tenant.documentNumber.toLowerCase().includes(normalized)
     );
   }, [rows, searchTerm]);
+  */
 
   return (
     <div className="space-y-4">
       <DataTable
         columns={columns}
-        data={filteredRows}
+        data={rows}
         loading={isLoading}
       />
 
-      {!isLoading && filteredRows.length > 0 && (
+      {!isLoading && rows.length > 0 && (
         <DataTablePagination
           page={page}
           limit={limit}

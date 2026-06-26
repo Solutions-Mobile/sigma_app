@@ -6,7 +6,7 @@ import { getAppSettings, getDataSource } from "@/lib/app-settings";
 import { getMockTenants } from "./tenant-mock-data";
 
 export const tenantService = {
-  list: async (params?: { page?: number; limit?: number }) => {
+  list: async (params?: { page?: number; limit?: number; search?: string; }) => {
     const settings = getAppSettings();
     const dataSource = getDataSource(settings, "tenants");
 

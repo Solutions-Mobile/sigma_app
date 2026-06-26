@@ -1,45 +1,46 @@
-import { Search, X } from "lucide-react";
-
+import { X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
 import { Input } from "@/components/ui/input";
 
 type Props = {
   value: string;
-
   placeholder?: string;
-
   disabled?: boolean;
-
   onChange: (value: string) => void;
+  onKeyDown?: (event: React.KeyboardEvent<HTMLInputElement>,) => void;
+  onClear?: () => void;
 };
 
-export function DataTableSearch({ value, placeholder = "Pesquisar...", disabled = false, onChange, }: Props) {
-  const handleClear = () => { onChange(""); };
-
+export function DataTableSearch({
+  value,
+  placeholder,
+  disabled,
+  onChange,
+  onKeyDown,
+  onClear,
+}: Props) {
   return (
-    <div className="relative w-full max-w-sm">
-      <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
-
+    <div className="relative flex items-center">
       <Input
         value={value}
-        disabled={disabled}
         placeholder={placeholder}
-        className="pl-9 pr-10"
+        disabled={disabled}
+        className="pr-10"
         onChange={(event) =>
           onChange(event.target.value)
         }
+        onKeyDown={onKeyDown}
       />
 
       {value && (
         <Button
           type="button"
-          size="icon"
           variant="ghost"
-          className="absolute right-1 top-1/2 size-7 -translate-y-1/2"
-          onClick={handleClear}
+          size="icon"
+          className="absolute right-1 h-7 w-7"
+          onClick={onClear}
         >
-          <X className="size-4" />
+          <X className="h-4 w-4" />
         </Button>
       )}
     </div>
