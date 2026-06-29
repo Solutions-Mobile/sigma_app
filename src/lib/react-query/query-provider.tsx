@@ -5,7 +5,6 @@ import { queryClient } from "./query-client";
 export function QueryProvider({
   children,
 }: PropsWithChildren) {
-  console.log("QUERY PROVIDER MOUNTED");
   return (
     <QueryClientProvider
       client={queryClient}

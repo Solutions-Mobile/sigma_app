@@ -15,5 +15,4 @@ export const queryClient =
     },
   });
 
-  console.log("QUERY CLIENT INSTANCE CREATED");
   

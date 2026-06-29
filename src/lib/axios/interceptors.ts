@@ -9,7 +9,7 @@ export function setupInterceptors(api: AxiosInstance) {
   api.interceptors.request.use(
     (config: InternalAxiosRequestConfig) => {
       const token = AuthStorage.getAccessToken();
-      console.log("Authorization Token:", token);
+      //console.log("Authorization Token:", token);
 
       if (token) {
         config.headers.Authorization = `Bearer ${token}`;

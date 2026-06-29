@@ -16,11 +16,8 @@ export const tenantService = {
       return getMockTenants(page, limit);
     }
 
-    console.log("TENANT SERVICE LIST PARAMS:", params);
-
     const { data } = await httpClient.get<PaginatedResponse<Tenant>>("/tenants", { params });
 
-    console.log("TENANT SERVICE RESPONSE:", data);
     return data;
   },
 

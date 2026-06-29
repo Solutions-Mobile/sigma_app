@@ -11,11 +11,6 @@ type Props = {
 export function ProtectedRoute({  children,  permission,}: Props) {
   const { authenticated, user } =    useAuth();
 
-  console.log(" authenticated: ", authenticated);
-  console.log("user: ", user);
-  console.log("children: ", children);
-  console.log("permission: ", permission);
-
   if (!authenticated) {
     return (
       <Navigate

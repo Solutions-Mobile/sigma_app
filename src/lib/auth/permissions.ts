@@ -60,8 +60,6 @@ const profilePermissions: Record<UserProfile, Permission[]> = {
 
 function normalizeProfile(profile: string): UserProfile {
   const normalized = profile.replace("ROLE_", "").trim().toUpperCase();
-  console.log("normalized: ",normalized )
-  // if (normalized === "ADMIN" || normalized === "MANAGER") {
   if (normalized === "SYSTEM_ADMIN" || normalized === "OWNER"|| normalized === "MANAGER") {
     return normalized;
   }

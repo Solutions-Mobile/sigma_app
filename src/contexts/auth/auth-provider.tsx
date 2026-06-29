@@ -21,8 +21,6 @@ export function AuthProvider({ children, }: AuthProviderProps) {
           password,
         });
 
-       console.log("response: ", response)
-
       AuthStorage.setSession(response);
 
       setUser(response.user);
