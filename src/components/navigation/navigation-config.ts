@@ -1,4 +1,4 @@
-import type { Permission } from "@/types/auth/permission";
+import type { Permission } from "@/types/auth/profilePermissionsTypes";
 import {  Building2,  FileBarChart2,  LayoutDashboard,  Settings,  Wallet /*CreditCard,  Shield,  Users,*/,} from "lucide-react";
 
 export type NavigationItem = {

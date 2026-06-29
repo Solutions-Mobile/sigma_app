@@ -1,4 +1,4 @@
-import type { Permission } from "@/types/auth/permission";
+import type { Permission } from "@/types/auth/profilePermissionsTypes";
 
 export type AppRoute = {
   path: string;

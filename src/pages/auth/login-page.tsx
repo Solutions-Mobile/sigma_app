@@ -20,9 +20,7 @@ export function LoginPage() {
   const { login: executeLogin, authenticated, } = useAuth();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const { register, handleSubmit, formState: { errors }, } = useForm<LoginFormData>({
-    resolver: zodResolver(loginSchema),
-  });
+  const { register, handleSubmit, formState: { errors }, } = useForm<LoginFormData>({ resolver: zodResolver(loginSchema), });
 
   async function onSubmit(data: LoginFormData,) {
     try {

@@ -11,19 +11,17 @@ import { QueryProvider } from "@/lib/react-query/query-provider";
 import { AppSettingsProvider } from "@/lib/app-settings-context";
 
 ReactDOM.createRoot(
-  document.getElementById(
-    "root"
-  ) as HTMLElement,
+  document.getElementById("root") as HTMLElement,
 ).render(
   <React.StrictMode>
-      <ThemeProvider>
-        <QueryProvider>
-          <AppSettingsProvider>
-            <AuthProvider>
-              <App />
-            </AuthProvider>
-          </AppSettingsProvider>
-        </QueryProvider>
-      </ThemeProvider>
+    <ThemeProvider>
+      <QueryProvider>
+        <AppSettingsProvider>
+          <AuthProvider>
+            <App />
+          </AuthProvider>
+        </AppSettingsProvider>
+      </QueryProvider>
+    </ThemeProvider>
   </React.StrictMode>,
 );
