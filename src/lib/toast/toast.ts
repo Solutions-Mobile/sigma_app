@@ -1,7 +1,8 @@
 import { toast, type ExternalToast } from "sonner";
 
 const defaultOptions: ExternalToast = {
-  duration: Number.POSITIVE_INFINITY,
+  // duration: Number.POSITIVE_INFINITY,
+  duration: 4000,
   closeButton: true,
 };
 

@@ -1,23 +1,12 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { tenantService } from "../services/tenant-service";
 import { tenantKeys } from "./tenant-keys";
-import type { CreateTenantDto, Tenant } from "../types/tenant.types";
-import { handleApiError } from "@/lib/errors/handle-api-error";
+import { useAppMutation } from "@/lib/react-query/mutation-factory";
 
 export function useCreateTenant() {
-  const queryClient = useQueryClient();
-
-  const retorno = 
-   useMutation<Tenant, Error, CreateTenantDto>({
+  const retorno = useAppMutation({
     mutationFn: tenantService.create,
-
-    onSuccess: async () => {
-      await queryClient.invalidateQueries({
-        queryKey: tenantKeys.lists(),
-      });
-    },
-    onError:handleApiError,
+    invalidateKeys: tenantKeys.all,
+    successMessage: "Tenant criado",
   });
-
   return retorno;
 }
