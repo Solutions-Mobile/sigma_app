@@ -2,6 +2,8 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { tenantService } from "../services/tenant-service";
 import { tenantKeys } from "./tenant-keys";
 import type { Tenant, UpdateTenantDto } from "../types/tenant.types";
+import { handleApiError } from "@/lib/errors/handle-api-error";
+
 
 type MutationData = {
   id: string;
@@ -25,5 +27,6 @@ export function useTenantUpdate() {
         }),
       ]);
     },
+    onError:handleApiError,
   });
 }

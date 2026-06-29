@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { tenantService } from "../services/tenant-service";
 import { tenantKeys } from "./tenant-keys";
+import { handleApiError } from "@/lib/errors/handle-api-error";
 
 export function useTenantDelete() {
   const queryClient = useQueryClient();
@@ -19,5 +20,6 @@ export function useTenantDelete() {
         }),
       ]);
     },
+    onError:handleApiError,  
   });
 }
