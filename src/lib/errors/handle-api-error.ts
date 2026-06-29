@@ -6,18 +6,15 @@ import type { ApiErrorResponse } from "./api-error";
 export function handleApiError(error: unknown) {
   if (!axios.isAxiosError(error)) {
     appToast.error(ERROR_MESSAGES.default);
-
     return;
   }
 
   if (!error.response) {
     appToast.error(ERROR_MESSAGES.network);
-
     return;
   }
 
   const status = error.response.status;
-
   const data = error.response.data as ApiErrorResponse;
 
   switch (status) {

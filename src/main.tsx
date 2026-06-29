@@ -7,6 +7,7 @@ import { ThemeProvider } from "@/components/theme/theme-provider";
 import { AuthProvider } from "@/contexts/auth/auth-provider";
 import { QueryProvider } from "@/lib/react-query/query-provider";
 import { AppSettingsProvider } from "@/lib/app-settings-context";
+import { Toaster } from "@/components/ui/sonner";
 
 ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement,
@@ -17,6 +18,7 @@ ReactDOM.createRoot(
         <AppSettingsProvider>
           <AuthProvider>
             <App />
+            <Toaster />
           </AuthProvider>
         </AppSettingsProvider>
       </QueryProvider>

@@ -7,7 +7,8 @@ import { handleApiError } from "@/lib/errors/handle-api-error";
 export function useCreateTenant() {
   const queryClient = useQueryClient();
 
-  return useMutation<Tenant, Error, CreateTenantDto>({
+  const retorno = 
+   useMutation<Tenant, Error, CreateTenantDto>({
     mutationFn: tenantService.create,
 
     onSuccess: async () => {
@@ -15,7 +16,8 @@ export function useCreateTenant() {
         queryKey: tenantKeys.lists(),
       });
     },
-
     onError:handleApiError,
   });
+
+  return retorno;
 }

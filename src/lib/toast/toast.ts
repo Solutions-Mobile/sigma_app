@@ -1,24 +1,29 @@
-import { toast } from "sonner";
+import { toast, type ExternalToast } from "sonner";
+
+const defaultOptions: ExternalToast = {
+  duration: Number.POSITIVE_INFINITY,
+  closeButton: true,
+};
 
 export const appToast = {
-  success(message: string) {
-    toast.success(message);
+  success(message: string, options?: ExternalToast) {
+    toast.success(message, { ...defaultOptions, ...options });
   },
 
-  error(message: string) {
-    toast.error(message);
+  error(message: string, options?: ExternalToast) {
+    toast.error(message, { ...defaultOptions, ...options });
   },
 
-  warning(message: string) {
-    toast.warning(message);
+  warning(message: string, options?: ExternalToast) {
+    toast.warning(message, { ...defaultOptions, ...options });
   },
 
-  info(message: string) {
-    toast.info(message);
+  info(message: string, options?: ExternalToast) {
+    toast.info(message, { ...defaultOptions, ...options });
   },
 
-  loading(message: string) {
-    return toast.loading(message);
+  loading(message: string, options?: ExternalToast) {
+    return toast.loading(message, { ...defaultOptions, ...options });
   },
 
   dismiss(id?: string | number) {
