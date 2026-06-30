@@ -1,12 +1,10 @@
-//import { LogOut, Moon, Sun } from "lucide-react";
-//import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/auth/use-auth";
-//import { useTheme } from "@/components/theme/use-theme";
 import { AppBreadcrumbs } from "@/components/breadcrumbs/app-breadcrumbs";
 import { usePageMetadata } from "@/hooks/use-page-metadata";
 
 export function AppHeader() {
-  const { title, breadcrumbs } = usePageMetadata();
+  //const { title, breadcrumbs } = usePageMetadata();
+  const { breadcrumbs } = usePageMetadata();
   const { user } = useAuth();
 
   return (
@@ -14,12 +12,10 @@ export function AppHeader() {
       <div className="flex items-center justify-between gap-4">
         <div className="space-y-1">
           <h1 className="text-2xl font-semibold">
-            {title}
+            {/* {title} */} Sigma Financeiro
           </h1>
 
-          <AppBreadcrumbs
-            items={breadcrumbs}
-          />
+          <AppBreadcrumbs items={breadcrumbs} />
         </div>
 
         <div className="flex items-center gap-3">

@@ -1,7 +1,7 @@
 import { /*useEffect,*/ useMemo, useState } from "react";
 import { useLocation, useNavigate, useParams, useSearchParams, } from "react-router-dom";
 import { AppPage } from "@/components/app/app-page";
-import { PageToolbar } from "@/components/app/page-toolbar";
+//import { PageToolbar } from "@/components/app/page-toolbar";
 import { Button } from "@/components/ui/button";
 import { ConfirmDialog } from "@/components/dialogs/confirm-dialog";
 import { DataTableSearch } from "@/components/data-table/data-table-search";
@@ -13,7 +13,12 @@ import { useTenantUpdate } from "../hooks/use-tenant-update";
 import { useTenantById } from "../hooks/use-tenant-by-id";
 import type { Tenant } from "../types/tenant.types";
 import type { TenantFormData } from "../schemas/tenant.schema";
-import { Checkbox } from "@/components/ui/checkbox";
+//import { Checkbox } from "@/components/ui/checkbox";
+
+import { BaseCrudToolbar } from "@/features/_shared/crud/base-crud-toolbar";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
+//import { BaseListPage } from "@/features/_shared/crud/base-list-page";
 
 export default function TenantsPage() {
   const navigate = useNavigate();
@@ -170,6 +175,130 @@ export default function TenantsPage() {
   return (
     <AppPage
       toolbar={
+        <BaseCrudToolbar
+          // title="Tenants"
+          actions={
+            <>
+              <div className="flex items-center gap-2">
+                <DataTableSearch
+                  value={inputSearch}
+                  placeholder="Pesquisar... (Enter)"
+                  onChange={setInputSearch}
+                  onKeyDown={(event) => {
+                    if (event.key === "Enter") {
+                      handleApplySearch();
+                    }
+                  }}
+                  onClear={() => {
+                    setInputSearch("");
+
+                    updateQueryParams({
+                      page: 1,
+                      search: "",
+                    });
+                  }}
+                />
+
+                <Button onClick={handleApplySearch}>
+                  Buscar
+                </Button>
+
+                {/* <div className="flex items-center gap-2 px-2">
+                  <Checkbox
+                    checked={!isActive}
+                    onCheckedChange={(checked) => {
+                      updateQueryParams({
+                        page: 1,
+
+                        search: searchTerm,
+
+                        isActive: checked
+                          ? false
+                          : true,
+                      });
+                    }}
+                  />
+
+                  <span className="text-sm">
+                    Mostrar inativos
+                  </span>
+                </div> */}
+
+<div className="flex items-center gap-3 px-3 py-2 rounded-lg border border-border bg-card hover:bg-accent/40 transition-all shadow-sm">
+  <Switch
+    id="active-filter"
+    checked={!isActive}
+    className="data-[state=checked]:bg-[#09448d] data-[state=unchecked]:bg-zinc-200 border border-transparent data-[state=unchecked]:border-zinc-300 focus-visible:ring-[#09448d]"
+    onCheckedChange={(checked) => {
+      updateQueryParams({
+        page: 1,
+        search: searchTerm,
+        isActive: !checked,
+      });
+    }}
+  />
+  <Label 
+    htmlFor="active-filter" 
+    className="text-sm font-semibold text-foreground/90 cursor-pointer select-none"
+  >
+    Mostrar Inativos
+  </Label>
+</div>
+
+
+              </div>
+
+              <Button onClick={handleOpenCreate}>
+                Novo Tenant
+              </Button>
+            </>
+          }
+        />}
+    >
+      <TenantTable
+        page={page}
+        searchTerm={searchTerm}
+        isActive={isActive}
+        onPageChange={handlePageChange}
+        onEdit={handleEdit}
+        onDelete={handleDelete}
+      />
+
+      <TenantFormDialog
+        open={formOpen}
+        tenant={isEditRoute ? selectedTenant ?? null : null}
+        title={formTitle}
+        loading={
+          loadingTenant ||
+          createTenant.isPending ||
+          updateTenant.isPending
+        }
+        onClose={handleCloseForm}
+        onSubmit={handleSubmitForm}
+      />
+
+      <ConfirmDialog
+        open={confirmDeleteOpen}
+        title="Excluir tenant"
+        description="Deseja realmente excluir este tenant? Esta ação não pode ser desfeita."
+        confirmLabel="Excluir"
+        cancelLabel="Cancelar"
+        loading={deleteTenant.isPending}
+        onConfirm={handleConfirmDelete}
+        onCancel={() => {
+          setConfirmDeleteOpen(false);
+          setTenantToDelete(null);
+        }}
+      />
+    </AppPage>
+  );
+}
+
+
+/*
+return (
+    <AppPage
+      toolbar={
         <PageToolbar>
           <div className="flex items-center gap-2">
             <DataTableSearch
@@ -257,4 +386,4 @@ export default function TenantsPage() {
       />
     </AppPage>
   );
-}
+*/

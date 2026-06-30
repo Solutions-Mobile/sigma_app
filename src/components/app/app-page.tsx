@@ -4,14 +4,10 @@ type Props = {
   children: React.ReactNode;
 };
 
-export function AppPage({
-  toolbar,
-  children,
-}: Props) {
+export function AppPage({  toolbar,  children,}: Props) {
   return (
     <div className="space-y-6">
       {toolbar}
-
       {children}
     </div>
   );
