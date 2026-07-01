@@ -83,22 +83,11 @@ export function AppSidebar() {
     // <aside className={cn("flex h-full flex-col border-r bg-background transition-all duration-300", collapsed ? "w-20" : "w-64")}    >
     <aside className={cn("flex h-full flex-col border-r bg-sidebar transition-all duration-300 text-white", collapsed ? "w-20" : "w-64")} >
       <div className="flex h-18 items-center justify-between border-b px-4">
-        <div className="flex items-center gap-2">
-          {!collapsed && (
-            <img
-              src="/pwa-192x192.png"
-              alt="Sigma"
-              className="h-8 w-8 object-contain bg-slate-50 rounded"
-            />
-          )}
-
-
           {!collapsed && (
             <span className="font-semibold text-lg animate-fade-in">
-              Finance
+              
             </span>
           )}
-        </div>
 
         <button
           type="button"

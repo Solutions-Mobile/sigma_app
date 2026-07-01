@@ -11,9 +11,21 @@ export function AppHeader() {
     <header className="border-b bg-background px-6 py-2">
       <div className="flex items-center justify-between gap-4">
         <div className="space-y-1">
+          
+
+                  <div className="flex items-center gap-2">
+            <img
+              src="/pwa-192x192.png"
+              alt="Sigma"
+              className="h-8 w-8 object-contain bg-slate-50 rounded"
+            />
+
+
+
           <h1 className="text-2xl font-semibold">
-            {/* {title} */} Sigma Financeiro
+            {/* {title} */} Sigma Finance
           </h1>
+        </div>
 
           <AppBreadcrumbs items={breadcrumbs} />
         </div>

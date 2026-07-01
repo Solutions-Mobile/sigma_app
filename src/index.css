@@ -1,36 +1,33 @@
 @import "tailwindcss";
 
-:root {
-  --background: #cecde0;
-  --foreground: #0f172a;
-
-  --muted: #f1f5f9;
-  --muted-foreground: #64748b;
-
-  --border: #e2e8f0;
-
-  --primary: #09448d;
-  --primary-foreground: #ffffff;
-
-  --sidebar: 		#2a2634;
+ :root {
+      --background: #dce2f4;
+      --foreground: #2f343d;
+      
+      --primary: #3061ef;
+      --primary-foreground: #fcfcfc;
+      
+      --muted: #202124;
+      --muted-foreground: #979fab;
+      
+      --border: #202124;
+      
+      --sidebar: #7b7f86;
 }
 
 .dark {
-  --background: #272930;
-  --background2: #020817;
+      --background: #202124;
+      --foreground: #dce2f4;
 
-  --foreground: #f8fafc;
+      --primary: #3061ef;
+      --primary-foreground: #fcfcfc;
 
-  --muted: #0f172a;
-  --muted-foreground: #94a3b8;
+      --muted: #202124; 
+      --muted-foreground: #979fab;
 
-  --border: #1e293b;
-
-  --primary: #875d2a;
-  --primary-foreground: #ffffff;
-
-  --sidebar: 		#2a2634;
-}
+      --border: #ffffff; 
+      --sidebar: #7b7f86;
+} 
 
 body {
   background: var(--background);
@@ -53,6 +50,10 @@ body {
 
 .text-foreground {
   color: var(--foreground);
+}
+
+.bg-muted-foreground {
+  background: var(--muted-foreground);
 }
 
 .bg-muted {

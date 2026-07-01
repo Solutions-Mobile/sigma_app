@@ -83,9 +83,7 @@ export function DataTable<T>({ data, columns, loading = false, search, }: Props<
         <DataTableSearch
           value={search.value}
           placeholder={search.placeholder}
-          disabled={
-            search.disabled ?? loading
-          }
+          disabled={search.disabled ?? loading}
           onChange={search.onChange}
         />
       )}
