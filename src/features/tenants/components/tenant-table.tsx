@@ -1,6 +1,6 @@
-import { useMemo } from "react";
-import { DataTable } from "@/components/data-table/data-table";
-import { DataTablePagination } from "@/components/data-table/data-table-pagination";
+import { useMemo, useState } from "react";
+import type {  ColumnDef,  SortingState,} from "@tanstack/react-table";
+import { BaseDataTable } from "@/features/_shared/data-table/base-data-table";
 import { TenantTableActions } from "./tenant-table-actions";
 import { tenantColumns } from "./tenant-columns";
 import { useTenantsList } from "../hooks/use-tenants-list";
@@ -16,25 +16,41 @@ type TenantTableProps = {
   onDelete?: (tenant: Tenant) => void;
 };
 
-export function TenantTable({ page, searchTerm, isActive, onPageChange, onEdit, onDelete, }: TenantTableProps) {
+export function TenantTable({
+  page,
+  searchTerm,
+  isActive,
+  onPageChange,
+  onEdit,
+  onDelete,
+}: TenantTableProps) {
   const { settings } = useAppSettings();
+
   const limit = settings.pageSize;
 
-  //const { data, isLoading } = useTenantsList({ page, limit, });
-  const { data, isLoading } = useTenantsList({ page, limit, search: searchTerm, isActive });
+  const [pagination, setPagination] = useState({
+    pageIndex: page - 1,
+    pageSize: limit,
+  });
+
+  const [sorting, setSorting] = useState<SortingState>([]);
+
+  const { data, isLoading } = useTenantsList({
+    page: pagination.pageIndex + 1,
+    limit: pagination.pageSize,
+    search: searchTerm,
+    isActive,
+  });
+
   const rows = Array.isArray(data)
     ? data
     : data?.data ?? [];
-
-  const totalRecords = Array.isArray(data)
-    ? rows.length
-    : data?.totalRecords ?? 0;
 
   const totalPages = Array.isArray(data)
     ? 1
     : data?.totalPages ?? 1;
 
-  const columns = useMemo(() => {
+  const columns = useMemo<ColumnDef<Tenant>[]>(() => {
     const baseColumns = tenantColumns;
 
     if (!onEdit || !onDelete) {
@@ -43,13 +59,15 @@ export function TenantTable({ page, searchTerm, isActive, onPageChange, onEdit, 
 
     return [
       ...baseColumns,
+
       {
-        key: "actions" as keyof Tenant,
-        label: "Ações",
-        sortable: false,
-        render: (_, tenant: Tenant) => (
+        id: "actions",
+
+        header: "Ações",
+
+        cell: ({ row }) => (
           <TenantTableActions
-            tenant={tenant}
+            tenant={row.original}
             onEdit={onEdit}
             onDelete={onDelete}
           />
@@ -58,40 +76,25 @@ export function TenantTable({ page, searchTerm, isActive, onPageChange, onEdit, 
     ];
   }, [onEdit, onDelete]);
 
-  /*
-  const filteredRows = useMemo(() => {
-    if (!searchTerm) {
-      return rows;
-    }
-
-    const normalized = searchTerm.toLowerCase();
-
-    return rows.filter((tenant) =>
-      tenant.companyName.toLowerCase().includes(normalized) ||
-      tenant.tradingName.toLowerCase().includes(normalized) ||
-      tenant.documentNumber.toLowerCase().includes(normalized)
-    );
-  }, [rows, searchTerm]);
-  */
-
   return (
-    <div className="space-y-4">
-      <DataTable
-        columns={columns}
-        data={rows}
-        loading={isLoading}
-      />
+    <BaseDataTable
+      data={rows}
+      columns={columns}
+      loading={isLoading}
+      pageCount={totalPages}
+      pagination={pagination}
+      onPaginationChange={(updater) => {
+        const next =
+          typeof updater === "function"
+            ? updater(pagination)
+            : updater;
 
-      {!isLoading && rows.length > 0 && (
-        <DataTablePagination
-          page={page}
-          limit={limit}
-          totalPages={totalPages}
-          totalRecords={totalRecords}
-          disabled={isLoading}
-          onPageChange={onPageChange}
-        />
-      )}
-    </div>
+        setPagination(next);
+
+        onPageChange(next.pageIndex + 1);
+      }}
+      sorting={sorting}
+      onSortingChange={setSorting}
+    />
   );
 }
