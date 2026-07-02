@@ -202,49 +202,26 @@ export default function TenantsPage() {
                   Buscar
                 </Button>
 
-                {/* <div className="flex items-center gap-2 px-2">
-                  <Checkbox
+                <div className="flex items-center gap-3 px-3 py-2 rounded-lg border border-border bg-card hover:bg-accent/40 transition-all shadow-sm">
+                  <Switch
+                    id="active-filter"
                     checked={!isActive}
+                    className="data-[state=checked]:bg-[#09448d] data-[state=unchecked]:bg-zinc-200 border border-transparent data-[state=unchecked]:border-zinc-300 focus-visible:ring-[#09448d]"
                     onCheckedChange={(checked) => {
                       updateQueryParams({
                         page: 1,
-
                         search: searchTerm,
-
-                        isActive: checked
-                          ? false
-                          : true,
+                        isActive: !checked,
                       });
                     }}
                   />
-
-                  <span className="text-sm">
-                    Mostrar inativos
-                  </span>
-                </div> */}
-
-<div className="flex items-center gap-3 px-3 py-2 rounded-lg border border-border bg-card hover:bg-accent/40 transition-all shadow-sm">
-  <Switch
-    id="active-filter"
-    checked={!isActive}
-    className="data-[state=checked]:bg-[#09448d] data-[state=unchecked]:bg-zinc-200 border border-transparent data-[state=unchecked]:border-zinc-300 focus-visible:ring-[#09448d]"
-    onCheckedChange={(checked) => {
-      updateQueryParams({
-        page: 1,
-        search: searchTerm,
-        isActive: !checked,
-      });
-    }}
-  />
-  <Label 
-    htmlFor="active-filter" 
-    className="text-sm font-semibold text-foreground/90 cursor-pointer select-none"
-  >
-    Mostrar Inativos
-  </Label>
-</div>
-
-
+                  <Label
+                    htmlFor="active-filter"
+                    className="text-sm font-semibold text-foreground/90 cursor-pointer select-none"
+                  >
+                    Mostrar Inativos
+                  </Label>
+                </div>
               </div>
 
               <Button onClick={handleOpenCreate}>

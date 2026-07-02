@@ -1,9 +1,10 @@
-import { flexRender, getCoreRowModel, useReactTable, } from "@tanstack/react-table";
+import { flexRender, getCoreRowModel, getSortedRowModel, useReactTable, } from "@tanstack/react-table";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow, } from "@/components/ui/table";
 import { DataTableEmpty } from "./data-table-empty";
 import { DataTableLoading } from "./data-table-loading";
 import { DataTablePagination } from "./data-table-pagination";
 import type { BaseDataTableProps } from "./types/data-table.types";
+import { ArrowUpDown } from "lucide-react";
 
 export function BaseDataTable<TData>({
   data,
@@ -20,11 +21,18 @@ export function BaseDataTable<TData>({
     columns,
     getCoreRowModel: getCoreRowModel(),
     manualPagination: true,
-    manualSorting: true,
+    // PARA SORT SERVER-SIDE, DESCOMENTAR LINHA ABAIXO E COMENTAR LINHA DEPOIS
+    // manualSorting: true,
+
+    // PARA SORT CLIENT-SIDE
+    manualSorting: false,
+    getSortedRowModel: getSortedRowModel(),
+
     pageCount,
     state: { pagination, sorting, },
     onPaginationChange,
     onSortingChange,
+    enableSorting: true,
   });
 
   if (loading) {
@@ -39,13 +47,27 @@ export function BaseDataTable<TData>({
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
-                  <TableHead key={header.id}>
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
-                        header.column.columnDef.header,
-                        header.getContext()
+                  <TableHead
+                    key={header.id}
+                    className={
+                      header.column.getCanSort()
+                        ? "cursor-pointer select-none"
+                        : undefined
+                    }
+                    onClick={header.column.getToggleSortingHandler()}
+                  >
+                    <div className="flex items-center gap-2">
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
+
+                      {header.column.getCanSort() && (
+                        <ArrowUpDown className="h-4 w-4" />
                       )}
+                    </div>
                   </TableHead>
                 ))}
               </TableRow>

@@ -1,11 +1,13 @@
-import { useMemo, useState } from "react";
-import type {  ColumnDef,  SortingState,} from "@tanstack/react-table";
+//import { useMemo, useState } from "react";
+import { useMemo } from "react";
+import type { ColumnDef } from "@tanstack/react-table";
 import { BaseDataTable } from "@/features/_shared/data-table/base-data-table";
 import { TenantTableActions } from "./tenant-table-actions";
 import { tenantColumns } from "./tenant-columns";
 import { useTenantsList } from "../hooks/use-tenants-list";
 import { useAppSettings } from "@/lib/app-settings-context";
 import type { Tenant } from "../types/tenant.types";
+import { usePersistedTableState } from "@/features/_shared/data-table/use-persisted-table-state";
 
 type TenantTableProps = {
   page: number;
@@ -17,7 +19,7 @@ type TenantTableProps = {
 };
 
 export function TenantTable({
-  page,
+  //page,
   searchTerm,
   isActive,
   onPageChange,
@@ -25,15 +27,21 @@ export function TenantTable({
   onDelete,
 }: TenantTableProps) {
   const { settings } = useAppSettings();
-
   const limit = settings.pageSize;
 
-  const [pagination, setPagination] = useState({
-    pageIndex: page - 1,
-    pageSize: limit,
-  });
+  // const [pagination, setPagination] = useState({
+  //   pageIndex: page - 1,
+  //   pageSize: limit,
+  // });
+  // const [sorting, setSorting] = useState<SortingState>([]);
+  const { pagination, sorting, setPagination, setSorting, } = usePersistedTableState(
+    "tenants-table",
+    limit
+  );
 
-  const [sorting, setSorting] = useState<SortingState>([]);
+  // if (pagination.pageSize !== limit) {
+  //   pagination.pageSize = limit;
+  // }
 
   const { data, isLoading } = useTenantsList({
     page: pagination.pageIndex + 1,
@@ -42,14 +50,8 @@ export function TenantTable({
     isActive,
   });
 
-  const rows = Array.isArray(data)
-    ? data
-    : data?.data ?? [];
-
-  const totalPages = Array.isArray(data)
-    ? 1
-    : data?.totalPages ?? 1;
-
+  const rows = Array.isArray(data) ? data : data?.data ?? [];
+  const totalPages = Array.isArray(data) ? 1 : data?.totalPages ?? 1;
   const columns = useMemo<ColumnDef<Tenant>[]>(() => {
     const baseColumns = tenantColumns;
 

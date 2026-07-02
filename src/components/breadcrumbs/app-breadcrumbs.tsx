@@ -28,7 +28,7 @@ export function AppBreadcrumbs({
   }
 
   return (
-    <div className="flex items-center gap-1 text-sm text-muted-foreground">
+    <div className="flex items-center gap-1 text-sm text-foreground pt-1">
       {items.map((_, index) => {
         const path = resolvePath(index);
 

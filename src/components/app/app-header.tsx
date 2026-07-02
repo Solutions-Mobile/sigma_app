@@ -3,7 +3,6 @@ import { AppBreadcrumbs } from "@/components/breadcrumbs/app-breadcrumbs";
 import { usePageMetadata } from "@/hooks/use-page-metadata";
 
 export function AppHeader() {
-  //const { title, breadcrumbs } = usePageMetadata();
   const { breadcrumbs } = usePageMetadata();
   const { user } = useAuth();
 
@@ -11,21 +10,16 @@ export function AppHeader() {
     <header className="border-b bg-background px-6 py-2">
       <div className="flex items-center justify-between gap-4">
         <div className="space-y-1">
-          
-
-                  <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2">
             <img
-              src="/pwa-192x192.png"
+              src="/logo.png"
               alt="Sigma"
-              className="h-8 w-8 object-contain bg-slate-50 rounded"
+              className="h-10 w-10 object-contain bg-slate-400 rounded-full p-0.5"
             />
-
-
-
-          <h1 className="text-2xl font-semibold">
-            {/* {title} */} Sigma Finance
-          </h1>
-        </div>
+            <h1 className="text-2xl font-semibold">
+              Signa Finance
+            </h1>
+          </div>
 
           <AppBreadcrumbs items={breadcrumbs} />
         </div>
