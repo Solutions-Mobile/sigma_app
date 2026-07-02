@@ -1,4 +1,3 @@
-//import { useMemo, useState } from "react";
 import { useMemo } from "react";
 import type { ColumnDef } from "@tanstack/react-table";
 import { BaseDataTable } from "@/features/_shared/data-table/base-data-table";
@@ -8,10 +7,14 @@ import { useTenantsList } from "../hooks/use-tenants-list";
 import { useAppSettings } from "@/lib/app-settings-context";
 import type { Tenant } from "../types/tenant.types";
 import { usePersistedTableState } from "@/features/_shared/data-table/use-persisted-table-state";
+import { createActionsColumn } from "@/features/_shared/data-table/create-actions-column";
 
 type TenantTableProps = {
   page: number;
   searchTerm?: string;
+  onSearchChange?: (
+    value: string
+  ) => void;
   isActive?: boolean;
   onPageChange: (page: number) => void;
   onEdit?: (tenant: Tenant) => void;
@@ -19,8 +22,8 @@ type TenantTableProps = {
 };
 
 export function TenantTable({
-  //page,
   searchTerm,
+  onSearchChange,
   isActive,
   onPageChange,
   onEdit,
@@ -28,21 +31,10 @@ export function TenantTable({
 }: TenantTableProps) {
   const { settings } = useAppSettings();
   const limit = settings.pageSize;
-
-  // const [pagination, setPagination] = useState({
-  //   pageIndex: page - 1,
-  //   pageSize: limit,
-  // });
-  // const [sorting, setSorting] = useState<SortingState>([]);
   const { pagination, sorting, setPagination, setSorting, } = usePersistedTableState(
     "tenants-table",
     limit
   );
-
-  // if (pagination.pageSize !== limit) {
-  //   pagination.pageSize = limit;
-  // }
-
   const { data, isLoading } = useTenantsList({
     page: pagination.pageIndex + 1,
     limit: pagination.pageSize,
@@ -62,19 +54,27 @@ export function TenantTable({
     return [
       ...baseColumns,
 
-      {
-        id: "actions",
-
-        header: "Ações",
-
-        cell: ({ row }) => (
+      // {
+      //   id: "actions",
+      //   header: "Ações",
+      //   cell: ({ row }) => (
+      //     <TenantTableActions
+      //       tenant={row.original}
+      //       onEdit={onEdit}
+      //       onDelete={onDelete}
+      //     />
+      //   ),
+      // },
+      
+      createActionsColumn<Tenant>({
+        cell: (tenant) => (
           <TenantTableActions
-            tenant={row.original}
+            tenant={tenant}
             onEdit={onEdit}
             onDelete={onDelete}
           />
         ),
-      },
+      }),
     ];
   }, [onEdit, onDelete]);
 
@@ -83,6 +83,8 @@ export function TenantTable({
       data={rows}
       columns={columns}
       loading={isLoading}
+      search={searchTerm}
+      onSearchChange={onSearchChange}
       pageCount={totalPages}
       pagination={pagination}
       onPaginationChange={(updater) => {

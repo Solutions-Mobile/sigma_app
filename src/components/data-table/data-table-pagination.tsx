@@ -3,12 +3,9 @@ import { Button } from "@/components/ui/button";
 type Props = {
   page: number;
   limit: number;
-
   totalPages: number;
   totalRecords: number;
-
   disabled?: boolean;
-
   onPageChange: (page: number) => void;
 };
 

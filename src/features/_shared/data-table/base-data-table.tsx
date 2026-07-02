@@ -5,12 +5,21 @@ import { DataTableLoading } from "./data-table-loading";
 import { DataTablePagination } from "./data-table-pagination";
 import type { BaseDataTableProps } from "./types/data-table.types";
 import { ArrowUpDown } from "lucide-react";
+import { DataTableToolbar } from "./data-table-toolbar";
 
 export function BaseDataTable<TData>({
   data,
   columns,
   loading,
+  search,
+  onSearchChange,
+  onSearch,
+  onClear,
+  toolbarActions,
+  toolbarFilters,
+
   pageCount,
+  totalRecords,
   pagination,
   onPaginationChange,
   sorting,
@@ -27,8 +36,8 @@ export function BaseDataTable<TData>({
     // PARA SORT CLIENT-SIDE
     manualSorting: false,
     getSortedRowModel: getSortedRowModel(),
-
     pageCount,
+    totalRecords,
     state: { pagination, sorting, },
     onPaginationChange,
     onSortingChange,
@@ -41,6 +50,14 @@ export function BaseDataTable<TData>({
 
   return (
     <div className="space-y-4">
+      <DataTableToolbar
+        search={search}
+        onSearchChange={onSearchChange}
+        onSearch={onSearch}
+        onClear={onClear}
+        actions={toolbarActions}
+        filters={toolbarFilters}
+      />
       <div className="rounded-md border">
         <Table>
           <TableHeader>
@@ -102,7 +119,20 @@ export function BaseDataTable<TData>({
         </Table>
       </div>
 
-      <DataTablePagination table={table} />
+      {/* <DataTablePagination table={table} /> */}
+      <DataTablePagination
+        page={pagination.pageIndex + 1}
+        limit={pagination.pageSize}
+        totalPages={pageCount ?? 1}
+        totalRecords={totalRecords ?? data.length}
+        disabled={loading}
+        onPageChange={(page) => {
+          onPaginationChange({
+            ...pagination,
+            pageIndex: page - 1,
+          });
+        }}
+      />
     </div>
   );
 }

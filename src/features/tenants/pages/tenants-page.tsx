@@ -46,10 +46,6 @@ export default function TenantsPage() {
 
   const formOpen = isCreateRoute || (isEditRoute && Boolean(tenantId));
 
-  // useEffect(() => {
-  //   setInputSearch(searchTerm);
-  // }, [searchTerm]);
-
   function updateQueryParams(params: {
     page?: number;
     search?: string;
@@ -166,10 +162,10 @@ export default function TenantsPage() {
 
   const formTitle = useMemo(() => {
     if (selectedTenant) {
-      return "Editar tenant";
+      return "Editar empresa";
     }
 
-    return "Novo tenant";
+    return "Nova empresa";
   }, [selectedTenant]);
 
   return (
@@ -223,9 +219,8 @@ export default function TenantsPage() {
                   </Label>
                 </div>
               </div>
-
               <Button onClick={handleOpenCreate}>
-                Novo Tenant
+                Nova empresa
               </Button>
             </>
           }
