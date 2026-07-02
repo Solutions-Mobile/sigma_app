@@ -6,7 +6,7 @@ export function useTenantDelete() {
   const retorno = useAppMutation({
     mutationFn: tenantService.remove,
     invalidateKeys: tenantKeys.all,
-    successMessage: "Tenant removido",
+    successMessage: "Empresa removida",
   });
   return retorno;
 }

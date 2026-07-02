@@ -12,7 +12,7 @@ export function useTenantUpdate() {
   const retorno = useAppMutation<Tenant, MutationData>({
     mutationFn: ({ id, payload }) => tenantService.update(id, payload),
     invalidateKeys: tenantKeys.all,
-    successMessage: "Tenant atualizado",
+    successMessage: "Empresa atualizada",
   });
   return retorno;
 }

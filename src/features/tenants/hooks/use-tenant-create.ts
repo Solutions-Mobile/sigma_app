@@ -6,7 +6,7 @@ export function useCreateTenant() {
   const retorno = useAppMutation({
     mutationFn: tenantService.create,
     invalidateKeys: tenantKeys.all,
-    successMessage: "Tenant criado",
+    successMessage: "Empresa criada",
   });
   return retorno;
 }

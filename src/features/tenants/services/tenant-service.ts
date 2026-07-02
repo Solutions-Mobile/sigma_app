@@ -1,4 +1,3 @@
-//src\features\tenants\services\tenant-service.ts
 import { httpClient } from "@/services/http/http-client";
 import type { PaginatedResponse } from "@/types/api/paginated-response";
 import type { Tenant, CreateTenantDto, UpdateTenantDto } from "../types/tenant.types";

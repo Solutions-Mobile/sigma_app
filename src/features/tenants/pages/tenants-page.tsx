@@ -176,7 +176,6 @@ export default function TenantsPage() {
     <AppPage
       toolbar={
         <BaseCrudToolbar
-          // title="Tenants"
           actions={
             <>
               <div className="flex items-center gap-2">
